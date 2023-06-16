@@ -28,9 +28,10 @@ function Footer(props) {
 
             <p>Contact</p>
             <p>AGB</p>
-            <button type="button" className="btn btn-secondary">
-              Login
-            </button>
+
+            <Link to="/admin">
+              <p>Login</p>
+            </Link>
           </div>
           <div className="col-5">
             <iframe

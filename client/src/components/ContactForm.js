@@ -3,15 +3,15 @@ import React, { useState } from "react";
 
 const axios = require("axios");
 
-async function saveContact(contact) {
-  const response = fetch("/contact", {
-    method: "GET",
-  });
-  console.log(response);
-  if (!response.ok) {
-    throw new Error(response.statusText);
-  }
-}
+// async function saveContact(contact) {
+//   const response = fetch("/contact", {
+//     method: "GET",
+//   });
+//   console.log(response);
+//   if (!response.ok) {
+//     throw new Error(response.statusText);
+//   }
+// }
 
 function ContactForm() {
   const [name, setName] = useState("");
@@ -25,24 +25,19 @@ function ContactForm() {
     console.log("Name:", name);
     console.log("Email:", email);
     console.log("Message:", message);
-    const contact = { Name: name, email: email, message: message };
+
+    // saves the contact from the form to the database
+    const contact = { name: name, email: email, message: message };
     console.log(contact);
-
     const response = await fetch("/contact", {
-      method: "GET",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(contact),
     });
-
-    const text = await response.text();
-    console.log("server Respones " + text);
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    // const response = await fetch("/api/contacts", {
-    //   method: "POST",
-    //   body: JSON.stringify(contact),
-    // });
-    // const data = await response.json();
-    // console.log("Response: " + Object.values(data));
+    const data = await response.json();
+    console.log("Response: " + Object.values(data));
   };
 
   return (

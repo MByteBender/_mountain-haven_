@@ -25,13 +25,25 @@ function BookApartment(props) {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form submitted!");
     console.log("Name:", name);
     console.log("Persons:", persons);
     console.log("Email:", email);
     console.log("Message:", message);
+
+    const contact = { name: name, persons: persons, email: email, message: message };
+    console.log(contact);
+    const response = await fetch("/bookApartment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(contact),
+    });
+    const data = await response.json();
+    console.log("Response: " + Object.values(data));
   };
 
   return (

@@ -18,6 +18,7 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Apartment1 from "./pages/apartment1";
 import Impressum from "./pages/impressum";
+import Admin from "./pages/admin";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route exact path="/" element={<HomePage />} />
           <Route exact path="/apartment1" element={<Apartment1 />} />
           <Route exact path="/impressum" element={<Impressum />} />
+          <Route exact path="/admin" element={<Admin />} />
           {/* Other routes */}
         </Routes>
       </div>
