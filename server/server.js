@@ -10,17 +10,7 @@ const bcrypt = require("bcrypt");
 
 app.use(express.json());
 
-const users = [
-  {
-    name: "Tristan",
-    password: "pass",
-  },
-];
-
-app.get("/users", (req, res) => {
-  res.json(users);
-});
-
+// enpoint which creates a user and hashes the password and stores the hashed passowrd in the database
 app.post("/users", async (req, res) => {
   // Authenticate User
 
@@ -29,8 +19,11 @@ app.post("/users", async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     console.log("salt " + salt);
     console.log("hashed password " + hashedPassword);
-    const user = { name: req.body.name, password: hashedPassword };
-    users.push(user);
+    const user = { username: req.body.username, password: hashedPassword };
+
+    const savedContact = await prisma.user.create({
+      data: user,
+    });
     res.status(201).send();
   } catch (error) {
     console.error(error);
@@ -40,16 +33,19 @@ app.post("/users", async (req, res) => {
 
 app.post("/users/login", async (req, res) => {
   // Authenticate User
-  const user = users.find((user) => user.name === req.body.name);
+  const user = await prisma.user.findUnique({
+    where: { id: req.body.id },
+  });
+
   if (user == null) {
     return res.status(400).send("Cannot find user");
   }
 
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
-      res.send("Success");
+      res.send({ message: "Succes" });
     } else {
-      res.send("Not Allowed");
+      res.send({ message: "Not Allowed" });
     }
   } catch (error) {
     console.error(error);

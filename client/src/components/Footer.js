@@ -29,7 +29,7 @@ function Footer(props) {
             <p>Contact</p>
             <p>AGB</p>
 
-            <Link to="/admin">
+            <Link to="/login">
               <p>Login</p>
             </Link>
           </div>
