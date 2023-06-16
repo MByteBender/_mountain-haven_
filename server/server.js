@@ -13,6 +13,8 @@ const flash = require("express-flash");
 const session = require("express-session");
 const passport = require("passport");
 
+const jwt = require("jsonwebtoken");
+
 const initializePassport = require("./passport-config");
 
 // initializePassport(passport, (email) =>
@@ -69,27 +71,49 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.post("/users/login", async (req, res) => {
+app.post("/admin/login", async (req, res) => {
   // Authenticate User
-  const user = await prisma.user.findUnique({
-    where: { id: req.body.id },
+  const user = await prisma.admin.findUnique({
+    where: { username: req.body.username },
   });
 
   if (user == null) {
-    return res.status(400).send("Cannot find user");
+    return res.status(400).send({ message: "Denied" });
   }
 
-  try {
-    if (await bcrypt.compare(req.body.password, user.password)) {
-      res.send({ message: "Succes" });
-    } else {
-      res.send({ message: "Not Allowed" });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send();
+  if (
+    user.password === req.body.password &&
+    user.username === req.body.username
+  ) {
+    // Generate a JWT
+    const token = jwt.sign({ userId: user.id }, process.env.SESSION_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.json({ token, message: "Succes" });
+  } else {
+    res.status(401).send({ message: "Denied" });
   }
 });
+
+// Middleware to authenticate requests
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).send("No token provided");
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).send("Invalid token");
+    }
+
+    req.user = user;
+    next();
+  });
+};
 
 app.post("/bookApartment", async (req, res) => {
   if (req.method !== "POST") {

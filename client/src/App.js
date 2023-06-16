@@ -19,7 +19,7 @@ import Navbar from "./components/Navbar";
 import Apartment1 from "./pages/apartment1";
 import Impressum from "./pages/impressum";
 import Admin from "./pages/admin";
-import Login from "./pages/login";
+import AdminLogin from "./pages/adminLogin";
 import Register from "./pages/register";
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
           <Route exact path="/apartment1" element={<Apartment1 />} />
           <Route exact path="/impressum" element={<Impressum />} />
           <Route exact path="/admin" element={<Admin />} />
-          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/admin/login" element={<AdminLogin />} />
           <Route exact path="/register" element={<Register />} />
           {/* Other routes */}
         </Routes>

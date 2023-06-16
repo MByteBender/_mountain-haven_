@@ -5,20 +5,19 @@ import styles from "../styles/ContactForm.module.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-  const [name, setName] = useState("");
+const AdminLogin = () => {
+  const [username, setName] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here
     const contact = {
-      id: "cliamev9o000093hcyvs6rwnl",
-      username: name,
+      username: username,
       password: password,
     };
     console.log(contact);
-    const response = await fetch("/users/login", {
+    const response = await fetch("/admin/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,9 +27,11 @@ const Login = () => {
 
     const data = await response.json();
 
-    if (Object.values(data) == "Succes") {
+    if (data.message === "Succes") {
+      // Store the token in local storage
+      localStorage.setItem("token", data.token);
       navigate("/admin");
-    } else {
+    } else if (data.message === "Denied") {
       alert("Wrong username or password");
     }
     console.log("LOGIN " + response);
@@ -53,8 +54,8 @@ const Login = () => {
                 <input
                   type="text"
                   className="form-control"
-                  id="name"
-                  value={name}
+                  id="username"
+                  value={username}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
@@ -83,4 +84,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;
