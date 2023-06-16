@@ -34,10 +34,13 @@ const Navbar = () => {
                 </CNavLink>
               </CNavItem>
               <CNavItem>
-                <CNavLink href="/Apartment1">Apartment 1</CNavLink>
+                <CNavLink href="/apartment1">Apartment 1</CNavLink>
               </CNavItem>
               <CNavItem>
-                <CNavLink href="Impressum">Impressum</CNavLink>
+                <CNavLink href="/register">Register</CNavLink>
+              </CNavItem>
+              <CNavItem>
+                <CNavLink href="/impressum">Impressum</CNavLink>
               </CNavItem>
               <CNavItem>
                 <CNavLink href="#" disabled>

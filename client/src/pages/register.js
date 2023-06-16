@@ -5,20 +5,19 @@ import styles from "../styles/ContactForm.module.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-  const [name, setName] = useState("");
+const Register = () => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here
     const contact = {
-      id: "cliamev9o000093hcyvs6rwnl",
-      username: name,
+      email: email,
       password: password,
     };
     console.log(contact);
-    const response = await fetch("/users/login", {
+    const response = await fetch("/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,15 +25,15 @@ const Login = () => {
       body: JSON.stringify(contact),
     });
 
-    const data = await response.json();
+    const responseData = await response.json();
 
-    if (Object.values(data) == "Succes") {
-      navigate("/admin");
-    } else {
-      alert("Wrong username or password");
+    if (response.status === 201) {
+      alert(Object.values(responseData));
+      navigate("/"); // return to home when successfully registred
+    } else if (response.status === 500) {
+      // Read the response body as JSON
+      alert(Object.values(responseData));
     }
-    console.log("LOGIN " + response);
-    console.log("Response: " + Object.values(data));
   };
 
   return (
@@ -47,15 +46,15 @@ const Login = () => {
             <h1 className="text-center">Login</h1>
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
-                <label htmlFor="name" className="form-label">
-                  Username
+                <label htmlFor="email" className="form-label">
+                  Email
                 </label>
                 <input
-                  type="text"
+                  type="email"
                   className="form-control"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="mb-3">
@@ -72,7 +71,7 @@ const Login = () => {
               </div>
 
               <button type="submit" className={` ${styles.customButton}`}>
-                <span>Login</span>
+                <span>Register</span>
               </button>
             </form>
           </div>
@@ -83,4 +82,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

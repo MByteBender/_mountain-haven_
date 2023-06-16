@@ -1,17 +1,55 @@
+// load enviroment variabels so when we are in development
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config;
+}
+
 const express = require("express");
 const path = require("path");
 const app = express();
 const prisma = require("./lib/prisma");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
+const flash = require("express-flash");
+const session = require("express-session");
+const passport = require("passport");
 
-// add this lines again when building npm run buil for deploy
+const initializePassport = require("./passport-config");
+
+// initializePassport(passport, (email) =>
+//   prisma.user.findUnique({
+//     where: { email: email },
+//   })
+// );
+
+// const user = await prisma.user.findUnique({
+//   where: { id: req.body.id },
+// });
+// !add this lines again when building npm run buil for deploy
 // app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.use(express.json());
+app.use(flash());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false, //should we resave our session variables when nothing is changed no
+    saveUninitialized: false, //do you want to save an empty value when there is no value no
+  })
+);
+
+app.use(passport.initialize()); // is a function inside passport that setsup basic stuff for us
+app.use(passport.session()); //store variables across the whole session the user has
+
+// !Has to be changed for authentification
+// app.get("/protected", authenticateToken, (req, res) => {
+//   // This route is only accessible to authenticated users
+//   // ...
+// });
+
+app.post("/login", (req, res) => {});
 
 // enpoint which creates a user and hashes the password and stores the hashed passowrd in the database
-app.post("/users", async (req, res) => {
+app.post("/register", async (req, res) => {
   // Authenticate User
 
   try {
@@ -19,15 +57,15 @@ app.post("/users", async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     console.log("salt " + salt);
     console.log("hashed password " + hashedPassword);
-    const user = { username: req.body.username, password: hashedPassword };
+    const user = { email: req.body.email, password: hashedPassword };
 
-    const savedContact = await prisma.user.create({
+    const savedContact = await prisma.users.create({
       data: user,
     });
-    res.status(201).send();
+    res.status(201).send({ message: "Successfully registered" });
   } catch (error) {
     console.error(error);
-    res.status(500).send();
+    res.status(500).send({ message: "Email already exists" }); // if user with that mail already exists return status 500
   }
 });
 
@@ -125,7 +163,7 @@ app.post("/sendEmail", async (req, res) => {
   }
 });
 
-// endcomment when depolying
+// // !endcomment when depolying
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname + "/../client/build/index.html"));
 // });

@@ -17,6 +17,8 @@ model Contact {
   message String
 }
 
+
+
 model Booking {
   id String @id @default(cuid())
   name String
@@ -28,5 +30,11 @@ model Booking {
 model User {
   id String @id @default(cuid())
   username String
+  password String
+}
+
+model Users {
+  id String @id @default(cuid())
+  email String @unique
   password String
 }

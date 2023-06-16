@@ -20,6 +20,7 @@ import Apartment1 from "./pages/apartment1";
 import Impressum from "./pages/impressum";
 import Admin from "./pages/admin";
 import Login from "./pages/login";
+import Register from "./pages/register";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route exact path="/impressum" element={<Impressum />} />
           <Route exact path="/admin" element={<Admin />} />
           <Route exact path="/login" element={<Login />} />
+          <Route exact path="/register" element={<Register />} />
           {/* Other routes */}
         </Routes>
       </div>
