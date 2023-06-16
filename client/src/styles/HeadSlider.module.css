@@ -1,0 +1,19 @@
+.container {
+  height: 70vh;
+  background-color: red;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.aboutUsImage {
+  width: 100%;
+}
+
+.outerContainer {
+  background-color: #a0a0a0;
+  height: 32vh;
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}

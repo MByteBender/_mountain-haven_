@@ -1,0 +1,13 @@
+.footer {
+  background-color: #a0a0a0;
+}
+
+.maps_iframe_two {
+  border: 0;
+  float: right;
+}
+
+.maps_iframe_one {
+  border: 0;
+  float: left;
+}

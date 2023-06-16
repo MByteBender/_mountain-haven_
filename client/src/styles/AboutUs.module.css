@@ -1,0 +1,12 @@
+.container {
+
+  height: 70vh;
+  background-color: red;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.aboutUsImage {
+  width: 100%;
+}
