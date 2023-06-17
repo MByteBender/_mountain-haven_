@@ -10,9 +10,9 @@ const PrivateRoute = ({ children }) => {
     if (!isLoggedIn) {
       navigate("/");
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, navigate]); //ensures that the effect is triggered whenever the isLoggedIn state or the navigate function changes.
 
-  return isLoggedIn ? children : null;
+  return isLoggedIn ? children : null; // render childrens if user is authenticated
 };
 
 export default PrivateRoute;

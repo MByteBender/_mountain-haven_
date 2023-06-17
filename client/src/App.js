@@ -30,6 +30,7 @@ function App() {
   return (
     <Router>
       <Navbar />
+      {/* give access to the Authprovider functions to the child components */}
       <AuthProvider>
         <div className="App">
           <Routes>

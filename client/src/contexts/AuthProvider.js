@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return !!Cookies.get("token");
+    return !!Cookies.get("token"); //convertign it to a boolena with !!
   });
 
   const login = async (username, password) => {
