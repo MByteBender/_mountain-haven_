@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 function Admin() {
   const [bookings, setBookings] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     async function getBookings() {
+      const token = Cookies.get("token"); // Retrieve the token from the cookie
+      if (!token) {
+        navigate("/");
+        return;
+      }
       const response = await fetch("/bookApartment", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // includes the token in the Authorization heade
         },
       });
 
@@ -20,9 +28,13 @@ function Admin() {
   }, []);
 
   async function deleteBooking(id) {
+    const token = Cookies.get("token");
     try {
       const response = await fetch(`/bookApartment/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`, // includes the token in the Authorization header
+        },
       });
 
       if (response.ok) {

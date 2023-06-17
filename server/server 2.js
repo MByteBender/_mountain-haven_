@@ -77,7 +77,7 @@ app.post("/admin/login", async (req, res) => {
     user.password === req.body.password &&
     user.username === req.body.username
   ) {
-    // Generate a JWT and sign it
+    // Generate a JWT
     const token = jwt.sign({ userId: user.id }, process.env.SESSION_SECRET, {
       expiresIn: "1h",
     });
@@ -102,7 +102,7 @@ app.post("/bookApartment", async (req, res) => {
   res.send(savedContact);
 });
 
-app.get("/bookApartment", authenticateToken, async (req, res) => {
+app.get("/bookApartment", async (req, res) => {
   if (req.method !== "GET") {
     return res.status(405).json({ message: "Method not allowed" });
   }
@@ -113,7 +113,7 @@ app.get("/bookApartment", authenticateToken, async (req, res) => {
   res.json(bookings);
 });
 
-app.delete("/bookApartment/:id", authenticateToken, async (req, res) => {
+app.delete("/bookApartment/:id", async (req, res) => {
   const id = req.params.id;
 
   try {

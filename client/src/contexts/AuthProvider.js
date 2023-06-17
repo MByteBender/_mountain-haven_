@@ -43,6 +43,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     Cookies.remove("token");
     setIsLoggedIn(false);
+    alert("You are logged out now");
     navigate("/");
   };
 
