@@ -11,20 +11,14 @@ const prisma = require("./lib/prisma");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 
-
 const jwt = require("jsonwebtoken");
 
-const { authenticateToken } = require("./middleware");
-
-
-
+const { authenticateToken, authenticateTokenAdmin } = require("./middleware");
 
 // !add this lines again when building npm run buil for deploy
 // app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.use(express.json());
-
-
 
 // enpoint which creates a user and hashes the password and stores the hashed passowrd in the database
 app.post("/user/register", async (req, res) => {
@@ -106,7 +100,7 @@ app.post("/admin/login", async (req, res) => {
     user.username === req.body.username
   ) {
     // Generate a JWT and sign it
-    const token = jwt.sign({ userId: user.id }, process.env.SESSION_SECRET, {
+    const token = jwt.sign({ userId: user.id }, process.env.ADMIN_SECRET, {
       expiresIn: "1h",
     });
 
@@ -130,7 +124,7 @@ app.post("/bookApartment", async (req, res) => {
   res.send(savedContact);
 });
 
-app.get("/bookApartment", authenticateToken, async (req, res) => {
+app.get("/bookApartment", authenticateTokenAdmin, async (req, res) => {
   if (req.method !== "GET") {
     return res.status(405).json({ message: "Method not allowed" });
   }
@@ -141,7 +135,7 @@ app.get("/bookApartment", authenticateToken, async (req, res) => {
   res.json(bookings);
 });
 
-app.delete("/bookApartment/:id", authenticateToken, async (req, res) => {
+app.delete("/bookApartment/:id", authenticateTokenAdmin, async (req, res) => {
   const id = req.params.id;
 
   try {
@@ -187,8 +181,6 @@ app.post("/sendEmail", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-
 
 // // !endcomment when depolying
 // app.get("*", (req, res) => {

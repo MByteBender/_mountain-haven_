@@ -26,6 +26,8 @@ function ContactForm() {
     console.log("Email:", email);
     console.log("Message:", message);
 
+
+    
     // saves the contact from the form to the database
     const contact = { name: name, email: email, message: message };
     console.log(contact);

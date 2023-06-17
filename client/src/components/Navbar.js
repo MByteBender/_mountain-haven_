@@ -10,6 +10,11 @@ import {
   CNavbarNav,
   CNavItem,
   CNavLink,
+  CDropdown,
+  CDropdownToggle,
+  CDropdownItem,
+  CDropdownDivider,
+  CDropdownMenu,
 } from "@coreui/react";
 import "@coreui/coreui/dist/css/coreui.min.css";
 import NavItem from "./NavItem";
@@ -33,22 +38,24 @@ const Navbar = () => {
                   Home
                 </CNavLink>
               </CNavItem>
+              <CDropdown variant="nav-item" popper={false}>
+                <CDropdownToggle color="secondary">Apartments </CDropdownToggle>
+                <CDropdownMenu>
+                  <CDropdownItem href="/apartment1">Apartment 1</CDropdownItem>
+                  <CDropdownItem href="#">Apartment 2</CDropdownItem>
+                  <CDropdownDivider />
+                  <CDropdownItem href="#">Something else here</CDropdownItem>
+                </CDropdownMenu>
+              </CDropdown>
+
               <CNavItem>
-                <CNavLink href="/apartment1">Apartment 1</CNavLink>
-              </CNavItem>
-              <CNavItem>
-                <CNavLink href="/register">Register</CNavLink>
-              </CNavItem>
-              <CNavItem>
-                <CNavLink href="/impressum">Impressum</CNavLink>
+                <CNavLink href="/register">Register/Login</CNavLink>
               </CNavItem>
               <CNavItem>
                 <CNavLink href="/openBookings">Open Bookings</CNavLink>
               </CNavItem>
               <CNavItem>
-                <CNavLink href="#" disabled>
-                  Disabled
-                </CNavLink>
+                <CNavLink href="/impressum">Impressum</CNavLink>
               </CNavItem>
             </CNavbarNav>
           </CCollapse>

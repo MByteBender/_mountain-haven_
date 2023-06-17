@@ -7,7 +7,10 @@ const Apartment1 = () => {
   return (
     <div>
       <main>
-        <BasicSlider />
+        <BasicSlider
+          Title="Apartment 1"
+          Apartmentdescription="a stunning and everlasting experience"
+        />
         <div className="container text-center p-4">
           <p>
             Dolore cillum fugiat ut adipiscing non consectetur duis culpa sed

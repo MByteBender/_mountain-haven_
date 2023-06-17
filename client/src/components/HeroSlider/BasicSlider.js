@@ -2,13 +2,14 @@ import HeroSlider, { Overlay, Slide, MenuNav } from "hero-slider";
 import Wrapper from "./Wrapper";
 import Title from "./Title";
 import Subtitle from "./Subtitle";
+import styles from "./Heroslider.module.css";
 
 const bogliasco = "https://i.imgur.com/Gu5Cznz.jpg";
 const countyClare = "https://i.imgur.com/idjXzVQ.jpg";
 const craterRock = "https://i.imgur.com/8DYumaY.jpg";
 const giauPass = "https://i.imgur.com/8IuucQZ.jpg";
 
-export default function BasicSlider() {
+export default function BasicSlider(props) {
   return (
     <HeroSlider
       height={"100vh"}
@@ -31,11 +32,11 @@ export default function BasicSlider() {
     >
       <Overlay>
         <Wrapper>
-          <Title>Basic Setup</Title>
+          <div className={`${styles.titleDiv} br-2`}>
+            <Title>{props.Title}</Title>
 
-          <Subtitle>
-            Check out the documentation for more advanced examples.
-          </Subtitle>
+            <Subtitle>{props.Apartmentdescription}</Subtitle>
+          </div>
         </Wrapper>
       </Overlay>
 

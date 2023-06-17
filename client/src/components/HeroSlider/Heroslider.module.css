@@ -1,5 +1,7 @@
 .titleDiv {
-  background-color: rgba(195, 196, 197, 0.422);
-  width: 50vh;
+  background-color: rgba(195, 196, 197, 0.584);
+  width: 70vh;
   border-radius: 10px;
+  color: rgba(0, 0, 0, 0.815);
+  padding: 1vh;
 }
