@@ -4,38 +4,18 @@ import Footer from "../components/Footer";
 import styles from "../styles/ContactForm.module.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { useAuth } from "../contexts/AuthProvider";
 
 const AdminLogin = () => {
-  const [username, setName] = useState("");
+  const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+
+  const { login } = useAuth();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    const contact = {
-      username: username,
-      password: password,
-    };
-    console.log(contact);
-    const response = await fetch("/admin/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(contact),
-    });
-
-    const data = await response.json();
-
-    if (data.message === "Succes") {
-      // Store the token in local storage
-      localStorage.setItem("token", data.token);
-      navigate("/admin");
-    } else if (data.message === "Denied") {
-      alert("Wrong username or password");
-    }
-    console.log("LOGIN " + response);
-    console.log("Response: " + Object.values(data));
+    await login(username, password);
   };
 
   return (
@@ -56,7 +36,7 @@ const AdminLogin = () => {
                   className="form-control"
                   id="username"
                   value={username}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setUserName(e.target.value)}
                 />
               </div>
               <div className="mb-3">

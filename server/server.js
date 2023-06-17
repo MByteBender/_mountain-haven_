@@ -15,6 +15,8 @@ const passport = require("passport");
 
 const jwt = require("jsonwebtoken");
 
+const { authenticateToken } = require("./middleware");
+
 const initializePassport = require("./passport-config");
 
 // initializePassport(passport, (email) =>
@@ -30,25 +32,15 @@ const initializePassport = require("./passport-config");
 // app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.use(express.json());
-app.use(flash());
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false, //should we resave our session variables when nothing is changed no
-    saveUninitialized: false, //do you want to save an empty value when there is no value no
-  })
-);
 
-app.use(passport.initialize()); // is a function inside passport that setsup basic stuff for us
-app.use(passport.session()); //store variables across the whole session the user has
+// app.use(passport.initialize()); // is a function inside passport that setsup basic stuff for us
+// app.use(passport.session()); //store variables across the whole session the user has
 
 // !Has to be changed for authentification
 // app.get("/protected", authenticateToken, (req, res) => {
 //   // This route is only accessible to authenticated users
 //   // ...
 // });
-
-app.post("/login", (req, res) => {});
 
 // enpoint which creates a user and hashes the password and stores the hashed passowrd in the database
 app.post("/register", async (req, res) => {
@@ -95,25 +87,6 @@ app.post("/admin/login", async (req, res) => {
     res.status(401).send({ message: "Denied" });
   }
 });
-
-// Middleware to authenticate requests
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-
-  if (!token) {
-    return res.status(401).send("No token provided");
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).send("Invalid token");
-    }
-
-    req.user = user;
-    next();
-  });
-};
 
 app.post("/bookApartment", async (req, res) => {
   if (req.method !== "POST") {

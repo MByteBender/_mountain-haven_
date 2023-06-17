@@ -22,22 +22,33 @@ import Admin from "./pages/admin";
 import AdminLogin from "./pages/adminLogin";
 import Register from "./pages/register";
 
+import PrivateRoute from "./components/PrivateRoute";
+
+import AuthProvider from "./contexts/AuthProvider";
+
 function App() {
   return (
     <Router>
-      <div className="App">
-        <Navbar />
-
-        <Routes>
-          <Route exact path="/" element={<HomePage />} />
-          <Route exact path="/apartment1" element={<Apartment1 />} />
-          <Route exact path="/impressum" element={<Impressum />} />
-          <Route exact path="/admin" element={<Admin />} />
-          <Route exact path="/admin/login" element={<AdminLogin />} />
-          <Route exact path="/register" element={<Register />} />
-          {/* Other routes */}
-        </Routes>
-      </div>
+      <Navbar />
+      <AuthProvider>
+        <div className="App">
+          <Routes>
+            <Route exact path="/" element={<HomePage />} />
+            <Route exact path="/apartment1" element={<Apartment1 />} />
+            <Route exact path="/impressum" element={<Impressum />} />
+            <Route
+              path="/admin"
+              element={
+                <PrivateRoute>
+                  <Admin />
+                </PrivateRoute>
+              }
+            />
+            <Route exact path="/admin/login" element={<AdminLogin />} />
+            <Route exact path="/register" element={<Register />} />
+          </Routes>
+        </div>
+      </AuthProvider>
     </Router>
   );
 }

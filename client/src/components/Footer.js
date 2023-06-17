@@ -1,8 +1,11 @@
 import React from "react";
 import styles from "../styles/Footer.module.css";
 import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthProvider";
 
 function Footer(props) {
+  const { logout } = useAuth();
+
   return (
     <footer className={`footer mt-auto py-3 ${styles.footer}`}>
       <div className="container">
@@ -32,6 +35,9 @@ function Footer(props) {
             <Link to="/admin/login">
               <p>Login</p>
             </Link>
+            <button type="submit" className="btn btn-primary" onClick={logout}>
+              <span>Logout</span>
+            </button>
           </div>
           <div className="col-5">
             <iframe
