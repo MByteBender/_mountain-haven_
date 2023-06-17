@@ -19,7 +19,7 @@ function ContactForm() {
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault(); //prevents default form behavoir f.e. side refresh
     // Handle form submission logic here
     console.log("Form submitted!");
     console.log("Name:", name);

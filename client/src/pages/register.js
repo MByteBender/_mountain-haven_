@@ -4,20 +4,44 @@ import Footer from "../components/Footer";
 import styles from "../styles/ContactForm.module.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const contact = {
+    email: email,
+    password: password,
+  };
+
+  const login = async (e) => {
+    const response = await fetch("/user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(contact),
+    });
+
+    const data = await response.json();
+
+    if (response.status === 200) {
+      Cookies.set("token", data.token);
+      alert("login Succesfull");
+      navigate("/openBookings"); // return to home when successfully registred
+    } else if (response.status === 500) {
+      // Read the response body as JSON
+      alert(Object.values(data));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here
-    const contact = {
-      email: email,
-      password: password,
-    };
+
     console.log(contact);
-    const response = await fetch("/register", {
+    const response = await fetch("/user/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,6 +98,9 @@ const Register = () => {
                 <span>Register</span>
               </button>
             </form>
+            <button onClick={login} className={` ${styles.customButton}`}>
+              <span>Login</span>
+            </button>
           </div>
         </div>
         <Footer />

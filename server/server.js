@@ -4,46 +4,30 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const express = require("express");
+
 const path = require("path");
 const app = express();
 const prisma = require("./lib/prisma");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
-const flash = require("express-flash");
-const session = require("express-session");
-const passport = require("passport");
+
 
 const jwt = require("jsonwebtoken");
 
 const { authenticateToken } = require("./middleware");
 
-const initializePassport = require("./passport-config");
 
-// initializePassport(passport, (email) =>
-//   prisma.user.findUnique({
-//     where: { email: email },
-//   })
-// );
 
-// const user = await prisma.user.findUnique({
-//   where: { id: req.body.id },
-// });
+
 // !add this lines again when building npm run buil for deploy
 // app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.use(express.json());
 
-// app.use(passport.initialize()); // is a function inside passport that setsup basic stuff for us
-// app.use(passport.session()); //store variables across the whole session the user has
 
-// !Has to be changed for authentification
-// app.get("/protected", authenticateToken, (req, res) => {
-//   // This route is only accessible to authenticated users
-//   // ...
-// });
 
 // enpoint which creates a user and hashes the password and stores the hashed passowrd in the database
-app.post("/register", async (req, res) => {
+app.post("/user/register", async (req, res) => {
   // Authenticate User
 
   try {
@@ -61,6 +45,50 @@ app.post("/register", async (req, res) => {
     console.error(error);
     res.status(500).send({ message: "Email already exists" }); // if user with that mail already exists return status 500
   }
+});
+
+app.post("/user/login", async (req, res) => {
+  // Authenticate User
+  const user = await prisma.users.findUnique({
+    where: { email: req.body.email },
+  });
+
+  if (user == null) {
+    return res.status(400).send("Cannot find user");
+  }
+
+  try {
+    if (await bcrypt.compare(req.body.password, user.password)) {
+      // Generate a JWT and sign it
+      const token = jwt.sign(
+        { email: user.email }, //put the email in the token payload
+        process.env.SESSION_SECRET,
+        {
+          expiresIn: "1h",
+        }
+      );
+      res.json({ token, message: "Succes" });
+    } else {
+      res.status(401).send({ message: "Denied" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send();
+  }
+});
+
+app.get("/openBookings", authenticateToken, async (req, res) => {
+  if (req.method !== "GET") {
+    return res.status(405).json({ message: "Method not allowed" });
+  }
+
+  const email = req.user.email; //req user is the payload of the token
+  const bookings = await prisma.booking.findMany({
+    where: { email: email },
+  });
+
+  console.log(bookings);
+  res.json(bookings);
 });
 
 app.post("/admin/login", async (req, res) => {
@@ -159,6 +187,8 @@ app.post("/sendEmail", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+
 
 // // !endcomment when depolying
 // app.get("*", (req, res) => {

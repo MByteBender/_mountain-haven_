@@ -43,6 +43,9 @@ const Navbar = () => {
                 <CNavLink href="/impressum">Impressum</CNavLink>
               </CNavItem>
               <CNavItem>
+                <CNavLink href="/openBookings">Open Bookings</CNavLink>
+              </CNavItem>
+              <CNavItem>
                 <CNavLink href="#" disabled>
                   Disabled
                 </CNavLink>

@@ -44,3 +44,4 @@ model Admin {
   username String @unique
   password String
 }
+
