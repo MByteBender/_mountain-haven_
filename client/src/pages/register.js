@@ -30,9 +30,9 @@ const Register = () => {
       Cookies.set("token", data.token);
       alert("login Succesfull");
       navigate("/openBookings"); // return to home when successfully registred
-    } else if (response.status === 500) {
+    } else if (response.status === 401 || response.status === 500) {
       // Read the response body as JSON
-      alert(Object.values(data));
+      alert("Wrong username or Password!");
     }
   };
 

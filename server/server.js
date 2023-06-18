@@ -14,6 +14,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const { authenticateToken, authenticateTokenAdmin } = require("./middleware");
+const { send } = require("process");
 
 // !add this lines again when building npm run buil for deploy
 // app.use(express.static(path.join(__dirname, "../client/build")));
@@ -183,17 +184,24 @@ app.post("/sendEmail", async (req, res) => {
 });
 
 app.post("/blogs/post", authenticateToken, async (req, res) => {
+  console.log(req.user.email); //req user is the payload of the token
   const userData = {
     email: req.user.email, //req user is the payload of the token
     title: req.body.title,
     blogPost: req.body.blogPost,
   };
-
-  const blogPost = await prisma.blogs.create({
-    data: userData,
-  });
-
-  res.sendStatus(201);
+  try {
+    await prisma.blogs.create({
+      data: userData,
+      // email: req.user.email,
+      // title: req.body.title,
+      // blogPost: req.body.blogPost,
+    });
+    res.sendStatus(201);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500);
+  }
 });
 
 app.get("/blogs", async (req, res) => {

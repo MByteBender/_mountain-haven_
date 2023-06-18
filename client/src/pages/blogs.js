@@ -8,15 +8,13 @@ import Cookies from "js-cookie";
 
 const Blogs = () => {
   const [title, setTitle] = useState("");
+  const [blogPostClient, setBlogPostClient] = useState("");
   const [blogPost, setBlogPost] = useState([]);
 
   useEffect(() => {
     async function getBlogPosts() {
       const response = await fetch("/blogs", {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
 
       const data = await response.json();
@@ -27,6 +25,7 @@ const Blogs = () => {
   }, []);
 
   const handleSubmit = async (e) => {
+    const requestBody = { title: title, blogPost: blogPostClient };
     const token = Cookies.get("token");
     if (!token) {
       alert("you can only write a Blog-Post if you are logged in!");
@@ -38,7 +37,12 @@ const Blogs = () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`, // includes the token in the Authorization header
       },
+      body: JSON.stringify(requestBody),
     });
+
+    if (response.status === 500) {
+      alert("You already Postet a Blog-Post");
+    } 
   };
   return (
     <div>
@@ -76,16 +80,16 @@ const Blogs = () => {
               </div>
 
               <div className="mb-3">
-                <label htmlFor="blogPost" className="form-label">
+                <label htmlFor="blogPostClient" className="form-label">
                   Blog-Post
                 </label>
                 <textarea
                   className="form-control"
-                  id="blogPost"
+                  id="blogPostCLient"
                   rows="5"
                   maxLength={250}
-                  value={blogPost}
-                  onChange={(e) => setBlogPost(e.target.value)}
+                  value={blogPostClient}
+                  onChange={(e) => setBlogPostClient(e.target.value)}
                 ></textarea>
               </div>
               <button type="submit" className={` ${customButton.customButton}`}>
