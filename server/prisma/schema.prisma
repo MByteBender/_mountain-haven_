@@ -45,3 +45,9 @@ model Admin {
   password String
 }
 
+model Blogs {
+  id String @id @default(cuid())
+  email String @unique
+  title String 
+  blogPost String
+}

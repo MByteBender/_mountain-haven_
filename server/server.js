@@ -182,6 +182,18 @@ app.post("/sendEmail", async (req, res) => {
   }
 });
 
+
+
+
+
+app.post("/blogs/post", async (req, res) => {
+  
+})
+
+
+
+
+
 // // !endcomment when depolying
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname + "/../client/build/index.html"));

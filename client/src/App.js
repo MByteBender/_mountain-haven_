@@ -26,6 +26,7 @@ import PrivateRoute from "./components/PrivateRoute";
 
 import AuthProvider from "./contexts/AuthProvider";
 import OpenBookings from "./pages/openBookings";
+import Blogs from "./pages/blogs";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
             <Route exact path="/admin/login" element={<AdminLogin />} />
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/openBookings" element={<OpenBookings />} />
+            <Route exact path="/blogs" element={<Blogs />} />
           </Routes>
         </div>
       </AuthProvider>
