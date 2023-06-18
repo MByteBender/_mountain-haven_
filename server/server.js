@@ -182,17 +182,35 @@ app.post("/sendEmail", async (req, res) => {
   }
 });
 
+app.post("/blogs/post", authenticateToken, async (req, res) => {
+  const userData = {
+    email: req.user.email, //req user is the payload of the token
+    title: req.body.title,
+    blogPost: req.body.blogPost,
+  };
 
+  const blogPost = await prisma.blogs.create({
+    data: userData,
+  });
 
+  res.sendStatus(201);
+});
 
+app.get("/blogs", async (req, res) => {
+  const blogPosts = await prisma.blogs.findMany();
 
-app.post("/blogs/post", async (req, res) => {
-  
-})
+  if (blogPosts.length > 0) {
+    const response = blogPosts.map((post) => ({
+      //map the response array so that only title and blogpost are sent to the client
+      title: post.title,
+      blogPost: post.blogPost,
+    }));
 
-
-
-
+    res.json(response);
+  } else {
+    res.sendStatus(500);
+  }
+});
 
 // // !endcomment when depolying
 // app.get("*", (req, res) => {

@@ -1,18 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BookApartment from "../components/BookApartment";
 import Footer from "../components/Footer";
 import BasicSlider from "../components/HeroSlider/BasicSlider";
 import styles from "../styles/BlogPost.module.css";
 import customButton from "../styles/customButton.module.css";
+import Cookies from "js-cookie";
 
 const Blogs = () => {
   const [title, setTitle] = useState("");
-  const [blogPost, setBlogPost] = useState("");
+  const [blogPost, setBlogPost] = useState([]);
+
+  useEffect(() => {
+    async function getBlogPosts() {
+      const response = await fetch("/blogs", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+      setBlogPost(data);
+    }
+
+    getBlogPosts();
+  }, []);
 
   const handleSubmit = async (e) => {
-
-    
-
+    const token = Cookies.get("token");
+    if (!token) {
+      alert("you can only write a Blog-Post if you are logged in!");
+      return;
+    }
+    const response = await fetch("/blogs/post", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // includes the token in the Authorization header
+      },
+    });
   };
   return (
     <div>
@@ -21,6 +47,15 @@ const Blogs = () => {
           Title="Blogs"
           Apartmentdescription="Write your experiences"
         />
+        <div className="d-flex flex-wrap">
+          {blogPost.map((blogPost) => (
+            <div className="p-3 col-6 container">
+              <h2>Title: {blogPost.title}</h2>
+              <p>Blog-Post: {blogPost.blogPost}</p>
+            </div>
+          ))}
+        </div>
+
         <div
           className={`container d-flex align-items-center justify-content-center ${styles.outerContainer}`}
         >
