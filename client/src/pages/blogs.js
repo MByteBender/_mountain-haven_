@@ -25,12 +25,10 @@ const Blogs = () => {
   }, []);
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const requestBody = { title: title, blogPost: blogPostClient };
     const token = Cookies.get("token");
-    if (!token) {
-      alert("you can only write a Blog-Post if you are logged in!");
-      return;
-    }
+
     const response = await fetch("/blogs/post", {
       method: "POST",
       headers: {
@@ -40,9 +38,15 @@ const Blogs = () => {
       body: JSON.stringify(requestBody),
     });
 
-    if (response.status === 500) {
+    // add resposne 403 when your cookie is invalid
+    if (!token || response.status() == 403) {
+      alert("you can only write a Blog-Post if you are logged in!");
+      return;
+    }
+
+    if (response.status == 500) {
       alert("You already Postet a Blog-Post");
-    } 
+    }
   };
   return (
     <div>
@@ -64,7 +68,7 @@ const Blogs = () => {
           className={`container d-flex align-items-center justify-content-center ${styles.outerContainer}`}
         >
           <div className={`col-md-6 bg ${styles.innerContainer}`}>
-            <h1 className="text-center">Contact</h1>
+            <h1 className="text-center">Write one yourself</h1>
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="title" className="form-label">
@@ -93,7 +97,7 @@ const Blogs = () => {
                 ></textarea>
               </div>
               <button type="submit" className={` ${customButton.customButton}`}>
-                <span>Sumbit</span>
+                <span>Post</span>
               </button>
             </form>
           </div>

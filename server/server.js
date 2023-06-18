@@ -193,9 +193,6 @@ app.post("/blogs/post", authenticateToken, async (req, res) => {
   try {
     await prisma.blogs.create({
       data: userData,
-      // email: req.user.email,
-      // title: req.body.title,
-      // blogPost: req.body.blogPost,
     });
     res.sendStatus(201);
   } catch (e) {
@@ -220,6 +217,24 @@ app.get("/blogs", async (req, res) => {
   }
 });
 
+// endpoint used to edit a existing Blogpost of a user
+app.patch("/blogs", authenticateToken, async (req, res) => {
+  try {
+    const email = req.user.email;
+
+    const { title, blogPost } = req.body;
+
+    await prisma.blogs.update({
+      where: { email: email },
+      data: { title: title, blogPost: blogPost },
+    });
+
+    res.sendStatus(200);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500);
+  }
+});
 // // !endcomment when depolying
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname + "/../client/build/index.html"));
