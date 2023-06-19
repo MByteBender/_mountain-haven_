@@ -80,21 +80,6 @@ app.post("/user/login", async (req, res) => {
   }
 });
 
-app.get("/user", authenticateToken, async (req, res) => {
-  try {
-    const responseData = await prisma.blogs.findUnique({
-      where: {
-        email: req.user.email,
-      },
-    });
-    // res.json(responseData);
-    res.status(200);
-  } catch (e) {
-    console.error(e);
-    res.sendStatus(500);
-  }
-});
-
 app.get("/openBookings", authenticateToken, async (req, res) => {
   if (req.method !== "GET") {
     return res.status(405).json({ message: "Method not allowed" });
@@ -232,13 +217,6 @@ app.get("/blogs", async (req, res) => {
     console.error(e);
     res.sendStatus(500);
   }
-
-  // if (blogPosts.length > 0) {
-  //   const response = blogPosts.map((post) => ({
-  //     //map the response array so that only title and blogpost are sent to the client
-  //     title: post.title,
-  //     blogPost: post.blogPost,
-  //   }));
 });
 
 // endpoint used to edit a existing Blogpost of a user
@@ -259,7 +237,20 @@ app.patch("/blogs", authenticateToken, async (req, res) => {
     res.sendStatus(500);
   }
 });
-// // !endcomment when depolying
+
+app.post("/contact", async (req, res) => {
+  try {
+    await prisma.contact.create({
+      data: req.body,
+    });
+    res.sendStatus(201);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500);
+  }
+});
+
+// !endcomment when depolying
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname + "/../client/build/index.html"));
 // });

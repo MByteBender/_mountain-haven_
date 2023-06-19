@@ -19,15 +19,8 @@ function ContactForm() {
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
-    // e.preventDefault(); //prevents default form behavoir f.e. side refresh
-    // Handle form submission logic here
-    console.log("Form submitted!");
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Message:", message);
+    e.preventDefault(); //prevents default form behavoir f.e. side refresh
 
-
-    
     // saves the contact from the form to the database
     const contact = { name: name, email: email, message: message };
     console.log(contact);
@@ -38,8 +31,13 @@ function ContactForm() {
       },
       body: JSON.stringify(contact),
     });
-    const data = await response.json();
-    console.log("Response: " + Object.values(data));
+
+    if (response.status === 201) {
+      setEmail("");
+      setMessage("");
+      setName("");
+      alert("Form Succesfully submited");
+    } else alert("Something went wrong");
   };
 
   return (

@@ -5,12 +5,14 @@ import BasicSlider from "../components/HeroSlider/BasicSlider";
 import styles from "../styles/BlogPost.module.css";
 import customButton from "../styles/customButton.module.css";
 import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 
 const Blogs = () => {
   const [title, setTitle] = useState("");
   const [blogPostClient, setBlogPostClient] = useState("");
   const [blogPost, setBlogPost] = useState([]);
   const [statusCode, setStatusCode] = useState(null);
+  const [email, setEmail] = useState(null);
 
   useEffect(() => {
     async function getBlogPosts() {
@@ -22,22 +24,22 @@ const Blogs = () => {
       setBlogPost(data);
     }
 
+    const token = Cookies.get("token");
+    if (token) {
+      // Decode the token and extract the email
+      const decodedToken = jwt_decode(token);
+      setEmail(decodedToken.email);
+    }
+
     getBlogPosts();
   }, [statusCode]);
 
-  const checkLogin = async (e) => {
-    const token = Cookies.get("token");
-    const response = await fetch("/user", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // includes the token in the Authorization header
-      },
-    });
-    if (response.status === 200) {
-      return true;
-    } else return false;
-  };
+  async function editBlogPost() {
+    const response = await fetch("/blogs", {
+        method: "PATCH",
+        
+      });
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,6 +88,12 @@ const Blogs = () => {
             <div className="p-3 col-6 container" key={blogPost.email}>
               <h2>Title: {blogPost.title}</h2>
               <p>Blog-Post: {blogPost.blogPost}</p>
+
+              {blogPost.email === email && (
+                <button onclick={editBlogPost} className="btn btn-primary">
+                  Edit
+                </button>
+              )}
             </div>
           ))}
         </div>
