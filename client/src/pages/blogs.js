@@ -25,7 +25,6 @@ const Blogs = () => {
   }, []);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     const requestBody = { title: title, blogPost: blogPostClient };
     const token = Cookies.get("token");
 
@@ -39,7 +38,7 @@ const Blogs = () => {
     });
 
     // add resposne 403 when your cookie is invalid
-    if (!token || response.status() == 403) {
+    if (!token || response.status == 403) {
       alert("you can only write a Blog-Post if you are logged in!");
       return;
     }
