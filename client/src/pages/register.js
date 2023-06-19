@@ -52,7 +52,8 @@ const Register = () => {
     const responseData = await response.json();
 
     if (response.status === 201) {
-      alert(Object.values(responseData));
+      Cookies.set("token", responseData.token);
+      alert(responseData.message);
       navigate("/"); // return to home when successfully registred
     } else if (response.status === 500) {
       // Read the response body as JSON

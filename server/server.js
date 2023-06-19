@@ -35,7 +35,15 @@ app.post("/user/register", async (req, res) => {
     const savedContact = await prisma.users.create({
       data: user,
     });
-    res.status(201).send({ message: "Successfully registered" });
+
+    const token = jwt.sign(
+      { email: user.email }, //put the email in the token payload
+      process.env.SESSION_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+    res.status(201).send({ token: token, message: "Successfully registered!" });
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: "Email already exists" }); // if user with that mail already exists return status 500
