@@ -80,6 +80,21 @@ app.post("/user/login", async (req, res) => {
   }
 });
 
+app.get("/user", authenticateToken, async (req, res) => {
+  try {
+    const responseData = await prisma.blogs.findUnique({
+      where: {
+        email: req.user.email,
+      },
+    });
+    // res.json(responseData);
+    res.status(200);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500);
+  }
+});
+
 app.get("/openBookings", authenticateToken, async (req, res) => {
   if (req.method !== "GET") {
     return res.status(405).json({ message: "Method not allowed" });
@@ -210,19 +225,20 @@ app.post("/blogs/post", authenticateToken, async (req, res) => {
 });
 
 app.get("/blogs", async (req, res) => {
-  const blogPosts = await prisma.blogs.findMany();
-
-  if (blogPosts.length > 0) {
-    const response = blogPosts.map((post) => ({
-      //map the response array so that only title and blogpost are sent to the client
-      title: post.title,
-      blogPost: post.blogPost,
-    }));
-
-    res.json(response);
-  } else {
+  try {
+    const blogPosts = await prisma.blogs.findMany();
+    res.json(blogPosts);
+  } catch (e) {
+    console.error(e);
     res.sendStatus(500);
   }
+
+  // if (blogPosts.length > 0) {
+  //   const response = blogPosts.map((post) => ({
+  //     //map the response array so that only title and blogpost are sent to the client
+  //     title: post.title,
+  //     blogPost: post.blogPost,
+  //   }));
 });
 
 // endpoint used to edit a existing Blogpost of a user

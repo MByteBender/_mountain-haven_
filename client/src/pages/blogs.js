@@ -10,6 +10,7 @@ const Blogs = () => {
   const [title, setTitle] = useState("");
   const [blogPostClient, setBlogPostClient] = useState("");
   const [blogPost, setBlogPost] = useState([]);
+  const [statusCode, setStatusCode] = useState(null);
 
   useEffect(() => {
     async function getBlogPosts() {
@@ -22,9 +23,25 @@ const Blogs = () => {
     }
 
     getBlogPosts();
-  }, []);
+  }, [statusCode]);
+
+  const checkLogin = async (e) => {
+    const token = Cookies.get("token");
+    const response = await fetch("/user", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // includes the token in the Authorization header
+      },
+    });
+    if (response.status === 200) {
+      return true;
+    } else return false;
+  };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
+
     const requestBody = { title: title, blogPost: blogPostClient };
     const token = Cookies.get("token");
 
@@ -36,15 +53,25 @@ const Blogs = () => {
       },
       body: JSON.stringify(requestBody),
     });
+    if (response.status === 201) {
+      setStatusCode(201);
+      setBlogPostClient("");
+      setTitle("");
+    }
 
     // add resposne 403 when your cookie is invalid
     if (!token || response.status == 403) {
       alert("you can only write a Blog-Post if you are logged in!");
+      setBlogPostClient("");
+      setTitle("");
       return;
     }
 
     if (response.status == 500) {
       alert("You already Postet a Blog-Post");
+      setBlogPostClient("");
+      setTitle("");
+      return;
     }
   };
   return (
@@ -56,7 +83,7 @@ const Blogs = () => {
         />
         <div className="d-flex flex-wrap">
           {blogPost.map((blogPost) => (
-            <div className="p-3 col-6 container">
+            <div className="p-3 col-6 container" key={blogPost.email}>
               <h2>Title: {blogPost.title}</h2>
               <p>Blog-Post: {blogPost.blogPost}</p>
             </div>
