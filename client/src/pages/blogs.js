@@ -14,6 +14,10 @@ const Blogs = () => {
   const [statusCode, setStatusCode] = useState(null);
   const [email, setEmail] = useState(null);
 
+  const [editMode, setEditMode] = useState(false);
+  const [editedTitle, setEditedTitle] = useState("");
+  const [editedBlogPost, setEditedBlogPost] = useState("");
+
   useEffect(() => {
     async function getBlogPosts() {
       const response = await fetch("/blogs", {
@@ -35,10 +39,31 @@ const Blogs = () => {
   }, [statusCode]);
 
   async function editBlogPost() {
-    const response = await fetch("/blogs", {
+    if (editMode) {
+      const token = Cookies.get("token");
+      const requestBody = {
+        title: editedTitle,
+        blogPost: editedBlogPost,
+      };
+
+      const response = await fetch("/blogs", {
         method: "PATCH",
-        
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(requestBody),
       });
+
+      if (response.status === 200) {
+        setEditMode(false);
+        setStatusCode(200);
+      } else alert("Something went wrong!");
+    } else {
+      setEditMode(true);
+      setEditedTitle(title);
+      setEditedBlogPost(blogPostClient);
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -84,14 +109,44 @@ const Blogs = () => {
           Apartmentdescription="Write your experiences"
         />
         <div className="d-flex flex-wrap">
-          {blogPost.map((blogPost) => (
-            <div className="p-3 col-6 container" key={blogPost.email}>
-              <h2>Title: {blogPost.title}</h2>
-              <p>Blog-Post: {blogPost.blogPost}</p>
+          {blogPost.map((blog) => (
+            <div className="p-3 col-6 container" key={blog.email}>
+              {editMode ? (
+                <>
+                  <h2>
+                    Title:{" "}
+                    {blog.email === email ? (
+                      <input
+                        type="text"
+                        value={editedTitle}
+                        onChange={(e) => setEditedTitle(e.target.value)}
+                      />
+                    ) : (
+                      blog.title
+                    )}
+                  </h2>
+                  <p>
+                    Blog-Post:{" "}
+                    {blog.email === email ? (
+                      <textarea
+                        value={editedBlogPost}
+                        onChange={(e) => setEditedBlogPost(e.target.value)}
+                      />
+                    ) : (
+                      blog.blogPost
+                    )}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h2>Title: {blog.title}</h2>
+                  <p>Blog-Post: {blog.blogPost}</p>
+                </>
+              )}
 
-              {blogPost.email === email && (
-                <button onclick={editBlogPost} className="btn btn-primary">
-                  Edit
+              {blog.email === email && (
+                <button onClick={editBlogPost} className="btn btn-primary">
+                  {editMode ? "Submit" : "Edit"}
                 </button>
               )}
             </div>

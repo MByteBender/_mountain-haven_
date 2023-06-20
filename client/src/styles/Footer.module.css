@@ -5,6 +5,8 @@
 .maps_iframe_two {
   border: 0;
   float: right;
+  height: 25vh;
+  width: 45vh;
 }
 
 .maps_iframe_one {

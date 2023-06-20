@@ -1,32 +1,13 @@
 import styles from "../styles/ContactForm.module.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-
-
-
-const axios = require("axios");
-
-// async function saveContact(contact) {
-//   const response = fetch("/contact", {
-//     method: "GET",
-//   });
-//   console.log(response);
-//   if (!response.ok) {
-//     throw new Error(response.statusText);
-//   }
-// }
-
-function CreateUserForm() {
+function ContactForm() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log("Form submitted!");
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Message:", message);
+    e.preventDefault(); //prevents default form behavoir f.e. side refresh
 
     // saves the contact from the form to the database
     const contact = { name: name, email: email, message: message };
@@ -38,8 +19,13 @@ function CreateUserForm() {
       },
       body: JSON.stringify(contact),
     });
-    const data = await response.json();
-    console.log("Response: " + Object.values(data));
+
+    if (response.status === 201) {
+      setEmail("");
+      setMessage("");
+      setName("");
+      alert("Form Succesfully submited");
+    } else alert("Something went wrong");
   };
 
   return (
@@ -47,8 +33,20 @@ function CreateUserForm() {
       className={`container d-flex align-items-center justify-content-center ${styles.outerContainer}`}
     >
       <div className={`col-md-6 bg ${styles.innerContainer}`}>
-        <h1 className="text-center">Register</h1>
+        <h1 className="text-center">Contact</h1>
         <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">
+              Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
               Email
@@ -70,7 +68,7 @@ function CreateUserForm() {
               id="message"
               rows="5"
               value={message}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setMessage(e.target.value)}
             ></textarea>
           </div>
           <button type="submit" className={` ${styles.customButton}`}>
@@ -82,4 +80,4 @@ function CreateUserForm() {
   );
 }
 
-export default CreateUserForm;
+export default ContactForm;
