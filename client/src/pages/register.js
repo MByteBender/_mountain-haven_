@@ -64,8 +64,9 @@ const Register = () => {
   return (
     <div>
       <main>
+        <div className="p-4 mb-3"></div>
         <div
-          className={`container d-flex align-items-center justify-content-center ${styles.outerContainer}`}
+          className={`container d-flex align-items-center justify-content-center ${styles.outerContainer} mt-5 mb-5`}
         >
           <div className={`col-md-6 bg ${styles.innerContainer}`}>
             <h1 className="text-center">Login</h1>
@@ -104,6 +105,8 @@ const Register = () => {
             </button>
           </div>
         </div>
+        <div className=" p-5 mb-5"></div>
+
         <Footer />
       </main>
     </div>

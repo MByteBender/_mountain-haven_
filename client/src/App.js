@@ -18,7 +18,7 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Apartment1 from "./pages/apartment1";
 import Impressum from "./pages/impressum";
-import Admin from "./pages/admin";
+import Admin from "./pages/adminOpenBookings";
 import AdminLogin from "./pages/adminLogin";
 import Register from "./pages/register";
 
@@ -27,6 +27,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import AuthProvider from "./contexts/AuthProvider";
 import OpenBookings from "./pages/openBookings";
 import Blogs from "./pages/blogs";
+import AdminContacts from "./pages/adminContacts";
 
 function App() {
   return (
@@ -40,10 +41,18 @@ function App() {
             <Route exact path="/apartment1" element={<Apartment1 />} />
             <Route exact path="/impressum" element={<Impressum />} />
             <Route
-              path="/admin"
+              path="/admin/openBookings"
               element={
                 <PrivateRoute>
                   <Admin />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/admin/contacts"
+              element={
+                <PrivateRoute>
+                  <AdminContacts />
                 </PrivateRoute>
               }
             />

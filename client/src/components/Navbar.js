@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   CNavbar,
   CContainer,
@@ -19,8 +19,9 @@ import {
 import "@coreui/coreui/dist/css/coreui.min.css";
 import NavItem from "./NavItem";
 
-const Navbar = () => {
+function Navbar() {
   const [visible, setVisible] = useState(false);
+
   return (
     <>
       <CNavbar expand="lg" colorScheme="light" className="bg-light">
@@ -60,12 +61,13 @@ const Navbar = () => {
               <CNavItem>
                 <CNavLink href="/impressum">Impressum</CNavLink>
               </CNavItem>
+              <CNavItem></CNavItem>
             </CNavbarNav>
           </CCollapse>
         </CContainer>
       </CNavbar>
     </>
   );
-};
+}
 
 export default Navbar;

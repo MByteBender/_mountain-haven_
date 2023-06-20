@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  //TODO  remove when deploying is just for development addtional checks etc.
   <React.StrictMode>
     <App />
   </React.StrictMode>

@@ -71,9 +71,9 @@ function Footer(props) {
           <div className="col-5">
             <div className="bg-warning">
               <h2>Weather</h2>
-              <p>Temprature: {temperature} °C</p>
-              <p>Max-Temprature: {maxTemperature} °C</p>
+              <p>Actual-Temprature: {temperature} °C</p>
               <p>Min-Temprature: {minTemperature} °C</p>
+              <p>Max-Temprature: {maxTemperature} °C</p>
             </div>
           </div>
 

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import AdminNavbar from "../components/NavbarAdmin";
 
-function Admin() {
+function AdminOpenBookings() {
   const [bookings, setBookings] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
@@ -105,4 +106,4 @@ function Admin() {
   );
 }
 
-export default Admin;
+export default AdminOpenBookings;

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import AdminNavbar from "../components/NavbarAdmin";
 
-function Admin() {
+function AdminContacts() {
   const [bookings, setBookings] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
@@ -77,32 +78,11 @@ function Admin() {
     <div>
       <main>
         <div className="d-flex flex-wrap">
-          {bookings.map((booking) => (
-            <div key={booking.id} className="p-3 col-6 container">
-              <h2>Name: {booking.name}</h2>
-              <p>Email: {booking.email}</p>
-              <p>Persons: {booking.persons}</p>
-              <p>Message: {booking.message}</p>
-              <p>ID: {booking.id}</p>
-              <button className="btn btn-primary">Edit</button>
-              <button
-                onClick={() => deleteBooking(booking.id)}
-                className="btn btn-primary ms-2"
-              >
-                Delete
-              </button>
-              <button
-                onClick={() => sendConfirmationEmail(booking)}
-                className="btn btn-primary ms-2"
-              >
-                confirm
-              </button>
-            </div>
-          ))}
+          <h1>TEST</h1>
         </div>
       </main>
     </div>
   );
 }
 
-export default Admin;
+export default AdminContacts;
