@@ -17,7 +17,7 @@ const { authenticateToken, authenticateTokenAdmin } = require("./middleware");
 const { send } = require("process");
 
 // !add this lines again when building npm run buil for deploy
-// app.use(express.static(path.join(__dirname, "../client/build")));
+app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.use(express.json());
 
@@ -251,9 +251,9 @@ app.post("/contact", async (req, res) => {
 });
 
 // !endcomment when depolying
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname + "/../client/build/index.html"));
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/../client/build/index.html"));
+});
 
 const port = process.env.PORT || 3000;
 console.log(`Server now listens on Port: ${port}`);

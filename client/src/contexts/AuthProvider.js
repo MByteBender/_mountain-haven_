@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
 
       Cookies.set("token", data.token);
       setIsLoggedIn(true);
-      navigate("/admin");
+      navigate("/admin/openbookings");
     } else if (data.message === "Denied") {
       alert("Wrong username or password");
     }

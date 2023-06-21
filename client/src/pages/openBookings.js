@@ -15,7 +15,6 @@ function OpenBookings() {
       const response = await fetch("/openBookings", {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`, // includes the token in the Authorization header
         },
       });

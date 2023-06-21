@@ -33,7 +33,12 @@ function BookApartment(props) {
     console.log("Email:", email);
     console.log("Message:", message);
 
-    const contact = { name: name, persons: persons, email: email, message: message };
+    const contact = {
+      name: name,
+      persons: persons,
+      email: email,
+      message: message,
+    };
     console.log(contact);
     const response = await fetch("/bookApartment", {
       method: "POST",
@@ -43,7 +48,11 @@ function BookApartment(props) {
       body: JSON.stringify(contact),
     });
     const data = await response.json();
-    console.log("Response: " + Object.values(data));
+
+    setEmail("");
+    setMessage("");
+    setName("");
+    alert("Booking of the Apartment succesfull!");
   };
 
   return (

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import AdminNavbar from "../components/NavbarAdmin";
+import Footer from "../components/Footer";
 
 function AdminContacts() {
   const [bookings, setBookings] = useState([]);
@@ -81,6 +82,7 @@ function AdminContacts() {
           <h1>TEST</h1>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

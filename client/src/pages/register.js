@@ -53,6 +53,7 @@ const Register = () => {
 
     if (response.status === 201) {
       Cookies.set("token", responseData.token);
+
       alert(responseData.message);
       navigate("/"); // return to home when successfully registred
     } else if (response.status === 500) {
@@ -88,7 +89,7 @@ const Register = () => {
                   Password
                 </label>
                 <input
-                  type="text"
+                  type="password"
                   className="form-control"
                   id="password"
                   value={password}

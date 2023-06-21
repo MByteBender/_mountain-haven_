@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import AdminNavbar from "../components/NavbarAdmin";
+import Footer from "../components/Footer";
 
 function AdminOpenBookings() {
   const [bookings, setBookings] = useState([]);
@@ -102,6 +103,7 @@ function AdminOpenBookings() {
           ))}
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
