@@ -8,6 +8,7 @@ import {
   Route,
   Switch,
   Routes,
+  useLocation,
 } from "react-router-dom";
 
 import HomePage from "./pages/homePage";
@@ -28,11 +29,15 @@ import AuthProvider from "./contexts/AuthProvider";
 import OpenBookings from "./pages/openBookings";
 import Blogs from "./pages/blogs";
 import AdminContacts from "./pages/adminContacts";
+import AdminNavbar from "./components/NavbarAdmin";
 
 function App() {
+  const location = window.location.pathname.startsWith("/admin");
+  console.log("LOVATIN: " + location);
+
   return (
     <Router>
-      <Navbar />
+      {location ? <AdminNavbar /> : <Navbar />}
       {/* give access to the Authprovider functions to the child components */}
       <AuthProvider>
         <div className="App">

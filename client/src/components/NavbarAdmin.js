@@ -26,7 +26,7 @@ function AdminNavbar() {
     <>
       <CNavbar expand="lg" colorScheme="light" className="bg-light">
         <CContainer fluid>
-          <CNavbarBrand href="/">Mountain Haven</CNavbarBrand>
+          <CNavbarBrand href="/admin/openBookings">Admin</CNavbarBrand>
           <CNavbarToggler
             aria-label="Toggle navigation"
             aria-expanded={visible}
@@ -39,30 +39,17 @@ function AdminNavbar() {
                   Home
                 </CNavLink>
               </CNavItem>
-              <CDropdown variant="nav-item" popper={false}>
-                <CDropdownToggle color="secondary">
-                  Open Bookings{" "}
-                </CDropdownToggle>
-                <CDropdownMenu>
-                  <CDropdownItem href="/apartment1">Apartment 1</CDropdownItem>
-                  <CDropdownItem href="#">Apartment 2</CDropdownItem>
-                  <CDropdownDivider />
-                  <CDropdownItem href="#">Something else here</CDropdownItem>
-                </CDropdownMenu>
-              </CDropdown>
+              <CNavItem>
+                <CNavLink href="/admin/openBookings" active>
+                  Open-Bookings
+                </CNavLink>
+              </CNavItem>
+              <CNavItem>
+                <CNavLink href="/admin/contacts" active>
+                  Open Contact Requests
+                </CNavLink>
+              </CNavItem>
 
-              <CNavItem>
-                <CNavLink href="/register">Register/Login</CNavLink>
-              </CNavItem>
-              <CNavItem>
-                <CNavLink href="/openBookings">Open Bookings</CNavLink>
-              </CNavItem>
-              <CNavItem>
-                <CNavLink href="/blogs">Blogs</CNavLink>
-              </CNavItem>
-              <CNavItem>
-                <CNavLink href="/impressum">Impressum</CNavLink>
-              </CNavItem>
               <CNavItem></CNavItem>
             </CNavbarNav>
           </CCollapse>

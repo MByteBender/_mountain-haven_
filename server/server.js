@@ -17,7 +17,7 @@ const { authenticateToken, authenticateTokenAdmin } = require("./middleware");
 const { send } = require("process");
 
 // !add this lines again when building npm run buil for deploy
-app.use(express.static(path.join(__dirname, "../client/build")));
+// app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.use(express.json());
 
@@ -154,10 +154,10 @@ app.delete("/bookApartment/:id", authenticateTokenAdmin, async (req, res) => {
       },
     });
 
-    res.json(deletedBooking);
+    res.sendStatus(200);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: error.message });
+    res.sendStatus(500);
   }
 });
 
@@ -187,7 +187,7 @@ app.post("/sendEmail", async (req, res) => {
     res.json({ message: "Email sent" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: error.message });
+    res.sendStatus(500);
   }
 });
 
@@ -250,10 +250,27 @@ app.post("/contact", async (req, res) => {
   }
 });
 
-// !endcomment when depolying
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/../client/build/index.html"));
+app.delete("/contact/:id", authenticateTokenAdmin, async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const deletedContactRequest = await prisma.contact.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
 });
+
+// !endcomment when depolying
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname + "/../client/build/index.html"));
+// });
 
 const port = process.env.PORT || 3000;
 console.log(`Server now listens on Port: ${port}`);
