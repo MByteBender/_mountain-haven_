@@ -20,8 +20,7 @@ const HomePage = () => {
         <AboutUs />
         <div className="pb-4"></div>
         <ContactForm />
-        <Footer />
-      </main> 
+      </main>
     </div>
   );
 };

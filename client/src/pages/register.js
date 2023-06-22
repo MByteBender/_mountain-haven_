@@ -107,8 +107,6 @@ const Register = () => {
           </div>
         </div>
         <div className=" p-5 mb-5"></div>
-
-        <Footer />
       </main>
     </div>
   );

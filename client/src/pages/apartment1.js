@@ -45,7 +45,6 @@ const Apartment1 = () => {
           apartmentName="Apartment 1"
           maxGuestNumber="8"
         />
-        <Footer />
       </main>
     </div>
   );

@@ -13,7 +13,11 @@ const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
-const { authenticateToken, authenticateTokenAdmin } = require("./middleware");
+const {
+  authenticateToken,
+  authenticateTokenAdmin,
+  sendResponse,
+} = require("./middleware");
 const { send } = require("process");
 
 // !add this lines again when building npm run buil for deploy
@@ -80,19 +84,21 @@ app.post("/user/login", async (req, res) => {
   }
 });
 
-app.get("/openBookings", authenticateToken, async (req, res) => {
-  if (req.method !== "GET") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
+app.get(
+  "/openBookings",
+  authenticateToken,
+  async (req, res, next) => {
+    const email = req.user.email; //req user is the payload of the token
+    const bookings = await prisma.booking.findMany({
+      where: { email: email },
+    });
 
-  const email = req.user.email; //req user is the payload of the token
-  const bookings = await prisma.booking.findMany({
-    where: { email: email },
-  });
-
-  console.log(bookings);
-  res.json(bookings);
-});
+    console.log(bookings);
+    res.data = bookings;
+    next();
+  },
+  sendResponse
+);
 
 app.post("/admin/login", async (req, res) => {
   // Authenticate User
@@ -120,17 +126,18 @@ app.post("/admin/login", async (req, res) => {
 });
 
 app.post("/bookApartment", async (req, res) => {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-
   const contactData = req.body;
 
   console.log("Contact data: " + JSON.stringify(req.body));
-  const savedContact = await prisma.booking.create({
-    data: contactData,
-  });
-  res.send(savedContact);
+  try {
+    const savedContact = await prisma.booking.create({
+      data: contactData,
+    });
+    res.sendStatus(201);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500);
+  }
 });
 
 app.put(
@@ -153,12 +160,21 @@ app.put(
   }
 );
 
-app.get("/bookApartment", authenticateTokenAdmin, async (req, res) => {
-  const bookings = await prisma.booking.findMany();
-
-  console.log(bookings);
-  res.json(bookings);
-});
+app.get(
+  "/bookApartment",
+  authenticateTokenAdmin,
+  async (req, res, next) => {
+    try {
+      const bookings = await prisma.booking.findMany();
+      res.data = bookings;
+      next();
+    } catch (e) {
+      console.error(e);
+      res.sendStatus(500);
+    }
+  },
+  sendResponse
+);
 
 app.delete("/bookApartment/:id", authenticateTokenAdmin, async (req, res) => {
   const id = req.params.id;
@@ -225,15 +241,20 @@ app.post("/blogs/post", authenticateToken, async (req, res) => {
   }
 });
 
-app.get("/blogs", async (req, res) => {
-  try {
-    const blogPosts = await prisma.blogs.findMany();
-    res.json(blogPosts);
-  } catch (e) {
-    console.error(e);
-    res.sendStatus(500);
-  }
-});
+app.get(
+  "/blogs",
+  async (req, res, next) => {
+    try {
+      const blogPosts = await prisma.blogs.findMany();
+      res.data = blogPosts;
+      next();
+    } catch (e) {
+      console.error(e);
+      res.sendStatus(500);
+    }
+  },
+  sendResponse
+);
 
 // endpoint used to edit a existing Blogpost of a user
 app.patch("/blogs", authenticateToken, async (req, res) => {
@@ -254,12 +275,22 @@ app.patch("/blogs", authenticateToken, async (req, res) => {
   }
 });
 
-app.get("/contact", authenticateTokenAdmin, async (req, res) => {
-  const contactRequest = await prisma.contact.findMany();
-
-  console.log(contactRequest);
-  res.json(contactRequest);
-});
+app.get(
+  "/contact",
+  authenticateTokenAdmin,
+  async (req, res, next) => {
+    try {
+      const contactRequest = await prisma.contact.findMany();
+      console.log(contactRequest);
+      res.data = contactRequest;
+      next();
+    } catch (e) {
+      console.error(e);
+      res.sendStatus(500);
+    }
+  },
+  sendResponse
+);
 
 app.post("/contact", async (req, res) => {
   try {

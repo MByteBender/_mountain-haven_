@@ -101,7 +101,6 @@ function AdminOpenBookings() {
           ))}
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

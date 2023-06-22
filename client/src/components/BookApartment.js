@@ -47,12 +47,15 @@ function BookApartment(props) {
       },
       body: JSON.stringify(contact),
     });
-    const data = await response.json();
 
-    setEmail("");
-    setMessage("");
-    setName("");
-    alert("Booking of the Apartment succesfull!");
+    if (response.status === 201) {
+      setEmail("");
+      setMessage("");
+      setName("");
+      alert("Booking of the Apartment succesfull!");
+    } else {
+      alert("Something went wrong");
+    }
   };
 
   return (

@@ -69,7 +69,6 @@ const Apartment1 = () => {
           Fotograf Mustermann Alle Texte sind urheberrechtlich geschützt.
           Quelle: Erstellt mit dem Impressum Generator von AdSimple
         </p>
-        <Footer />
       </main>
     </div>
   );

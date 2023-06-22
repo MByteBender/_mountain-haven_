@@ -58,7 +58,6 @@ const AdminLogin = () => {
             </form>
           </div>
         </div>
-        <Footer />
       </main>
     </div>
   );

@@ -66,6 +66,7 @@ function App() {
             <Route exact path="/openBookings" element={<OpenBookings />} />
             <Route exact path="/blogs" element={<Blogs />} />
           </Routes>
+          <Footer />
         </div>
       </AuthProvider>
     </Router>

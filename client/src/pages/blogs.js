@@ -191,7 +191,6 @@ const Blogs = () => {
             </form>
           </div>
         </div>
-        <Footer />
       </main>
     </div>
   );
