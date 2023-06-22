@@ -133,6 +133,26 @@ app.post("/bookApartment", async (req, res) => {
   res.send(savedContact);
 });
 
+app.put(
+  "/bookApartment/status/:id",
+  authenticateTokenAdmin,
+  async (req, res) => {
+    try {
+      const id = req.params.id;
+
+      await prisma.booking.update({
+        where: { id: id },
+        data: { status: "Confirmed" },
+      });
+
+      res.sendStatus(200);
+    } catch (e) {
+      console.error(e);
+      res.sendStatus(500);
+    }
+  }
+);
+
 app.get("/bookApartment", authenticateTokenAdmin, async (req, res) => {
   if (req.method !== "GET") {
     return res.status(405).json({ message: "Method not allowed" });

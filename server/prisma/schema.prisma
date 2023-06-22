@@ -25,7 +25,9 @@ model Booking {
   persons Int
   email String
   message String
+  status String @default("Pending")
 }
+
 
 model User {
   id String @id @default(cuid())

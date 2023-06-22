@@ -51,18 +51,15 @@ function AdminOpenBookings() {
     }
   }
 
-  async function sendConfirmationEmail(booking) {
+  async function confirmBooking(bookingID) {
+    const token = Cookies.get("token");
+
     try {
-      const response = await fetch("/sendEmail", {
-        method: "POST",
+      const response = await fetch(`/bookApartment/status/${bookingID}`, {
+        method: "PUT",
         headers: {
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          to: booking.email,
-          subject: "Booking Confirmation",
-          text: `Dear ${booking.name}, your booking has been confirmed!`,
-        }),
       });
 
       if (response.ok) {
@@ -74,6 +71,30 @@ function AdminOpenBookings() {
       console.error(error);
     }
   }
+
+  // async function sendConfirmationEmail(booking) {
+  //   try {
+  //     const response = await fetch("/sendEmail", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         to: booking.email,
+  //         subject: "Booking Confirmation",
+  //         text: `Dear ${booking.name}, your booking has been confirmed!`,
+  //       }),
+  //     });
+
+  //     if (response.ok) {
+  //       console.log("Email sent");
+  //     } else {
+  //       throw new Error("Failed to send email");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
   return (
     <div>
@@ -94,7 +115,7 @@ function AdminOpenBookings() {
                 Delete
               </button>
               <button
-                onClick={() => sendConfirmationEmail(booking)}
+                onClick={() => confirmBooking(booking.id)}
                 className="btn btn-primary ms-2"
               >
                 confirm

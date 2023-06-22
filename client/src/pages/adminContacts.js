@@ -70,6 +70,7 @@ function AdminContacts() {
               >
                 Delete
               </button>
+              <button className="btn btn-primary ms-2">answer</button>
             </div>
           ))}
         </div>
