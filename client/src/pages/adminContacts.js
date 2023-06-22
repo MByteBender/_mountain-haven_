@@ -5,34 +5,34 @@ import AdminNavbar from "../components/NavbarAdmin";
 import Footer from "../components/Footer";
 
 function AdminContacts() {
-  const [bookings, setBookings] = useState([]);
+  const [contactRequest, setContactRequest] = useState([]);
+
   const navigate = useNavigate();
   useEffect(() => {
-    async function getBookings() {
+    async function getContactRequest() {
       const token = Cookies.get("token"); // Retrieve the token from the cookie
       if (!token) {
-        navigate("/");
+        alert("You are not loged in!");
         return;
       }
-      const response = await fetch("/bookApartment", {
+      const response = await fetch("/contact", {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // includes the token in the Authorization heade
+          Authorization: `Bearer ${token}`, // includes the token in the Authorization header
         },
       });
 
       const data = await response.json();
-      setBookings(data);
+      setContactRequest(data);
     }
 
-    getBookings();
+    getContactRequest();
   }, []);
 
-  async function deleteBooking(id) {
+  async function deleteContactRequest(id) {
     const token = Cookies.get("token");
     try {
-      const response = await fetch(`/bookApartment/${id}`, {
+      const response = await fetch(`/contact/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`, // includes the token in the Authorization header
@@ -40,35 +40,13 @@ function AdminContacts() {
       });
 
       if (response.ok) {
-        setBookings((prevBookings) =>
-          prevBookings.filter((booking) => booking.id !== id)
+        setContactRequest((prevContactRequest) =>
+          prevContactRequest.filter(
+            (contactRequest) => contactRequest.id !== id
+          )
         );
       } else {
         throw new Error("Failed to delete booking");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function sendConfirmationEmail(booking) {
-    try {
-      const response = await fetch("/sendEmail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          to: booking.email,
-          subject: "Booking Confirmation",
-          text: `Dear ${booking.name}, your booking has been confirmed!`,
-        }),
-      });
-
-      if (response.ok) {
-        console.log("Email sent");
-      } else {
-        throw new Error("Failed to send email");
       }
     } catch (error) {
       console.error(error);
@@ -79,10 +57,23 @@ function AdminContacts() {
     <div>
       <main>
         <div className="d-flex flex-wrap">
-          <h1>TEST</h1>
+          {contactRequest.map((contactRequest) => (
+            <div key={contactRequest.id} className="p-3 col-6 container">
+              <h2>Name: {contactRequest.name}</h2>
+              <p>Email: {contactRequest.email}</p>
+              <p>Message: {contactRequest.message}</p>
+              <p>ID: {contactRequest.id}</p>
+              <button className="btn btn-primary">Edit</button>
+              <button
+                onClick={() => deleteContactRequest(contactRequest.id)}
+                className="btn btn-primary ms-2"
+              >
+                Delete
+              </button>
+            </div>
+          ))}
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

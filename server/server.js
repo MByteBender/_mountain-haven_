@@ -238,6 +238,13 @@ app.patch("/blogs", authenticateToken, async (req, res) => {
   }
 });
 
+app.get("/contact", authenticateTokenAdmin, async (req, res) => {
+  const contactRequest = await prisma.contact.findMany();
+
+  console.log(contactRequest);
+  res.json(contactRequest);
+});
+
 app.post("/contact", async (req, res) => {
   try {
     await prisma.contact.create({
