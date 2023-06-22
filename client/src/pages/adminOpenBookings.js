@@ -27,7 +27,7 @@ function AdminOpenBookings() {
     }
 
     getBookings();
-  }, []);
+  }, [confirmBooking]);
 
   async function deleteBooking(id) {
     const token = Cookies.get("token");
@@ -63,7 +63,7 @@ function AdminOpenBookings() {
       });
 
       if (response.ok) {
-        console.log("Email sent");
+        alert("Confirmation sent");
       } else {
         throw new Error("Failed to send email");
       }
@@ -71,30 +71,6 @@ function AdminOpenBookings() {
       console.error(error);
     }
   }
-
-  // async function sendConfirmationEmail(booking) {
-  //   try {
-  //     const response = await fetch("/sendEmail", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         to: booking.email,
-  //         subject: "Booking Confirmation",
-  //         text: `Dear ${booking.name}, your booking has been confirmed!`,
-  //       }),
-  //     });
-
-  //     if (response.ok) {
-  //       console.log("Email sent");
-  //     } else {
-  //       throw new Error("Failed to send email");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
 
   return (
     <div>
@@ -106,6 +82,7 @@ function AdminOpenBookings() {
               <p>Email: {booking.email}</p>
               <p>Persons: {booking.persons}</p>
               <p>Message: {booking.message}</p>
+              <p>Status: {booking.status}</p>
               <p>ID: {booking.id}</p>
               <button className="btn btn-primary">Edit</button>
               <button

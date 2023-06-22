@@ -154,10 +154,6 @@ app.put(
 );
 
 app.get("/bookApartment", authenticateTokenAdmin, async (req, res) => {
-  if (req.method !== "GET") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-
   const bookings = await prisma.booking.findMany();
 
   console.log(bookings);
