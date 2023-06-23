@@ -8,7 +8,6 @@ import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 
 const Restaurants = () => {
-  const [name, setName] = useState("");
   const [restaurants, setRestaurants] = useState([]);
 
   useEffect(() => {
@@ -18,38 +17,36 @@ const Restaurants = () => {
       });
 
       const data = await response.json();
-      setRestaurants(data);
+      const restaurantData = data.businesses;
+      setRestaurants(restaurantData);
     }
 
     getRestaurants();
-  }, [statusCode]);
+  }, []);
+
+  const handleMoreDetails = (url) => {
+    window.open(url, "_blank");
+  };
 
   return (
     <div>
       <main>
         <div className="d-flex flex-wrap">
-          {restaurants.map((booking) => (
-            <div key={booking.id} className="p-3 col-6 container">
-              <h2>Name: {booking.name}</h2>
-              <p>Email: {booking.email}</p>
-              <p>Persons: {booking.persons}</p>
-              <p>Message: {booking.message}</p>
-              <p>Status: {booking.status}</p>
-              <p>Start-Date: {booking.startDate}</p>
-              <p>End-Date: {booking.endDate}</p>
-              <p>ID: {booking.id}</p>
-              <button className="btn btn-primary">Edit</button>
+          {restaurants.map((restaurant) => (
+            <div key={restaurant.id} className="p-3 col-6 container">
+              <h2>Restaurant: {restaurant.name}</h2>
+              <p>Price: {restaurant.price}</p>
+              <p>Rating: {restaurant.rating}</p>
+              <p>Address: </p>
+              {restaurant.location.display_address.map((element, index) => (
+                <p key={index}>{element}</p>
+              ))}
+
               <button
-                onClick={() => deleteBooking(booking.id)}
-                className="btn btn-primary ms-2"
+                className="btn btn-primary"
+                onClick={() => handleMoreDetails(restaurant.url)}
               >
-                Delete
-              </button>
-              <button
-                onClick={() => confirmBooking(booking.id)}
-                className="btn btn-primary ms-2"
-              >
-                confirm
+                More Details
               </button>
             </div>
           ))}

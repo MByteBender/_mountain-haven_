@@ -360,6 +360,7 @@ app.get(
         }
       })
       .then((data) => {
+       
         res.data = data;
         next();
       })
