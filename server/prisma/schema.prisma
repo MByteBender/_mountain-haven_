@@ -26,6 +26,8 @@ model Booking {
   email String
   message String
   status String @default("Pending")
+  startDate String @default ("")
+  endDate String @default ("")
 }
 
 

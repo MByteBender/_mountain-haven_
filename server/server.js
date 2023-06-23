@@ -127,7 +127,19 @@ app.post("/admin/login", async (req, res) => {
 
 app.post("/bookApartment", async (req, res) => {
   const contactData = req.body;
+  const options = { day: "2-digit", month: "2-digit", year: "numeric" };
 
+  const startDate = new Date(req.body.date.startDate);
+  const formattedStartDate = startDate.toLocaleDateString("en-GB", options);
+  const endDate = new Date(req.body.date.endDate);
+  const formattedEndDate = endDate.toLocaleDateString("en-GB", options);
+
+  delete contactData.date;
+  contactData.startDate = formattedStartDate;
+  contactData.endDate = formattedEndDate;
+
+  console.log("Date " + formattedStartDate);
+  console.log("Date " + formattedEndDate);
   console.log("Contact data: " + JSON.stringify(req.body));
   try {
     const savedContact = await prisma.booking.create({

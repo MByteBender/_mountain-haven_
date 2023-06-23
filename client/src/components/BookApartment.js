@@ -49,7 +49,7 @@ function BookApartment(props) {
       persons: persons,
       email: email,
       message: message,
-      dateRange: selectedDateRange[0],
+      date: selectedDateRange[0],
     };
     console.log(contact);
     const response = await fetch("/bookApartment", {
