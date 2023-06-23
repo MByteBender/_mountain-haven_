@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "../styles/BookApartment.module.css";
 import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css";
@@ -13,6 +13,8 @@ function BookApartment(props) {
     props.apartmentImage3,
     props.apartmentImage4,
   ];
+
+  const [isDateRangeOpen, setIsDateRangeOpen] = useState(false);
 
   const [selectedDateRange, setSelectedDateRange] = useState([
     {
@@ -47,6 +49,24 @@ function BookApartment(props) {
   const [persons, setPersons] = useState(1);
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const dateRangeRef = useRef();
+
+  const handleDateRangeToggle = () => {
+    setIsDateRangeOpen(!isDateRangeOpen);
+  };
+
+  const handleClickOutside = (event) => {
+    if (dateRangeRef.current && !dateRangeRef.current.contains(event.target)) {
+      setIsDateRangeOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -132,13 +152,25 @@ function BookApartment(props) {
             <div className="mb-3">
               <label htmlFor="dateRange" className="form-label">
                 <p>Period of Stay</p>
-                <br></br>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="dateRange"
+                  onClick={handleDateRangeToggle}
+                  value={`${selectedDateRange[0].startDate.toLocaleDateString()} - ${selectedDateRange[0].endDate.toLocaleDateString()}`}
+                  readOnly
+                />
+                {isDateRangeOpen && (
+                  <div ref={dateRangeRef}>
+                    <DateRangePicker
+                      ranges={selectedDateRange}
+                      onChange={(ranges) =>
+                        setSelectedDateRange([ranges.selection])
+                      }
+                    />
+                  </div>
+                )}
               </label>
-              <DateRangePicker
-                id="dateRange"
-                ranges={selectedDateRange}
-                onChange={(ranges) => setSelectedDateRange([ranges.selection])}
-              />
             </div>
 
             <div className="mb-3">
