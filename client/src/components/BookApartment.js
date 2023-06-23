@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/BookApartment.module.css";
+import { DateRangePicker } from "react-date-range";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 
 function BookApartment(props) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -8,7 +11,15 @@ function BookApartment(props) {
     props.apartmentImage2,
     props.apartmentImage3,
     props.apartmentImage4,
-  ]; // Replace with your image URLs
+  ];
+
+  const [selectedDateRange, setSelectedDateRange] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
 
   useEffect(() => {
     const updateImage = () => {
@@ -38,6 +49,7 @@ function BookApartment(props) {
       persons: persons,
       email: email,
       message: message,
+      dateRange: selectedDateRange[0],
     };
     console.log(contact);
     const response = await fetch("/bookApartment", {
@@ -109,6 +121,17 @@ function BookApartment(props) {
                 max={props.maxGuestNumber}
               />
             </div>
+            <div className="mb-3">
+              <label htmlFor="dateRange" className="form-label">
+                Perios of Stay
+              </label>
+              <DateRangePicker
+                id="dateRange"
+                ranges={selectedDateRange}
+                onChange={(ranges) => setSelectedDateRange([ranges.selection])}
+              />
+            </div>
+
             <div className="mb-3">
               <label htmlFor="email" className="form-label">
                 Email
