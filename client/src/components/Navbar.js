@@ -59,7 +59,7 @@ function Navbar() {
                 <CNavLink href="/blogs">Blogs</CNavLink>
               </CNavItem>
               <CNavItem>
-                <CNavLink href="/impressum">Impressum</CNavLink>
+                <CNavLink href="/restaurants">Nearby Restaurants</CNavLink>
               </CNavItem>
               <CNavItem></CNavItem>
             </CNavbarNav>

@@ -30,7 +30,7 @@ const Register = () => {
       Cookies.set("token", data.token);
       alert("login Succesfull");
       navigate("/"); // return to home when successfully login
-    } else if (response.status === 401) {
+    } else if (response.status === 401 || response.status === 400) {
       alert("Wrong username or Password!");
     }
   };

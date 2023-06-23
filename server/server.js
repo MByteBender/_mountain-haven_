@@ -62,7 +62,7 @@ app.post("/user/login", async (req, res) => {
   });
 
   if (user == null) {
-    console.log("user null")
+    console.log("user null");
     return res.sendStatus(400);
   }
 
@@ -335,6 +335,41 @@ app.delete("/contact/:id", authenticateTokenAdmin, async (req, res) => {
     res.sendStatus(500);
   }
 });
+
+app.get(
+  "/restaurants",
+  async (req, res, next) => {
+    const API_TOKEN = process.env.YELP_API_TOKEN;
+    const latitude = "47.040286";
+    const longitude = "10.600489";
+    const data = await fetch(
+      `https://api.yelp.com/v3/businesses/search?latitude=${latitude}&longitude=${longitude}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${API_TOKEN}`,
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Request failed with status " + response.status);
+        }
+      })
+      .then((data) => {
+        res.data = data;
+        next();
+      })
+      .catch((error) => {
+        console.error(error);
+        res.sendStatus(500);
+      });
+  },
+  sendResponse
+);
 
 // !endcomment when depolying
 // app.get("*", (req, res) => {
