@@ -83,6 +83,8 @@ function AdminOpenBookings() {
               <p>Persons: {booking.persons}</p>
               <p>Message: {booking.message}</p>
               <p>Status: {booking.status}</p>
+              <p>Start-Date: {booking.startDate}</p>
+              <p>End-Date: {booking.endDate}</p>
               <p>ID: {booking.id}</p>
               <button className="btn btn-primary">Edit</button>
               <button

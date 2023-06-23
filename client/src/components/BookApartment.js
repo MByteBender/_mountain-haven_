@@ -6,6 +6,7 @@ import "react-date-range/dist/theme/default.css";
 
 function BookApartment(props) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [price, setPrice] = useState("");
   const images = [
     props.apartmentImage1,
     props.apartmentImage2,
@@ -20,6 +21,17 @@ function BookApartment(props) {
       key: "selection",
     },
   ]);
+
+  useEffect(() => {
+    const oneDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+    const diffInMilliseconds =
+      selectedDateRange[0].endDate.getTime() -
+      selectedDateRange[0].startDate.getTime();
+    const diffInDays = Math.round(diffInMilliseconds / oneDay);
+    setPrice(diffInDays * 55);
+    console.log("Number of days: " + diffInDays);
+    console.log("Price: " + price + "€");
+  }, [selectedDateRange]);
 
   useEffect(() => {
     const updateImage = () => {
@@ -38,11 +50,6 @@ function BookApartment(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted!");
-    console.log("Name:", name);
-    console.log("Persons:", persons);
-    console.log("Email:", email);
-    console.log("Message:", message);
 
     const contact = {
       name: name,
@@ -51,6 +58,7 @@ function BookApartment(props) {
       message: message,
       date: selectedDateRange[0],
     };
+
     console.log(contact);
     const response = await fetch("/bookApartment", {
       method: "POST",
@@ -123,7 +131,8 @@ function BookApartment(props) {
             </div>
             <div className="mb-3">
               <label htmlFor="dateRange" className="form-label">
-                Perios of Stay
+                <p>Period of Stay</p>
+                <br></br>
               </label>
               <DateRangePicker
                 id="dateRange"
@@ -132,6 +141,10 @@ function BookApartment(props) {
               />
             </div>
 
+            <div className="mb-3">
+              <p>Price</p>
+              <p>{price} €</p>
+            </div>
             <div className="mb-3">
               <label htmlFor="email" className="form-label">
                 Email
