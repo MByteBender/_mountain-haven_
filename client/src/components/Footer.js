@@ -69,7 +69,7 @@ function Footer(props) {
       <div className="container">
         <div className="row">
           <div className="col-5">
-            <div className="bg-warning">
+            <div>
               <h2>Weather</h2>
               <p>Actual-Temprature: {temperature} °C</p>
               <p>Min-Temprature: {minTemperature} °C</p>

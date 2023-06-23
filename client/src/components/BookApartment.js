@@ -7,12 +7,37 @@ import "react-date-range/dist/theme/default.css";
 function BookApartment(props) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [price, setPrice] = useState("");
+  const [currencySign, setCurrencySign] = useState("€");
+
   const images = [
     props.apartmentImage1,
     props.apartmentImage2,
     props.apartmentImage3,
     props.apartmentImage4,
   ];
+
+  async function getCHFCourse() {
+    return fetch(
+      "https://api.freecurrencyapi.com/v1/latest?apikey=bFAqnf8TFD673N3h9chFdG6XU829uHVvpiuYhqVc&currencies=CHF&base_currency=EUR",
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Request failed with status " + response.status);
+        }
+      })
+      .then((data) => {
+        const chfCourse = data.data.CHF;
+        return chfCourse;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   const [isDateRangeOpen, setIsDateRangeOpen] = useState(false);
 
@@ -23,6 +48,13 @@ function BookApartment(props) {
       key: "selection",
     },
   ]);
+
+  async function changeEurToChf() {
+    const chfCourse = await getCHFCourse();
+    const chf = (price * chfCourse).toFixed(2);
+    setPrice(chf);
+    setCurrencySign("CHF");
+  }
 
   useEffect(() => {
     const oneDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
@@ -92,7 +124,7 @@ function BookApartment(props) {
       setEmail("");
       setMessage("");
       setName("");
-      alert("Booking of the Apartment succesfull!");
+      alert("Booking of the Apartment successful!");
     } else {
       alert("Something went wrong");
     }
@@ -175,7 +207,16 @@ function BookApartment(props) {
 
             <div className="mb-3">
               <p>Price</p>
-              <p>{price} €</p>
+              <p>
+                {price} {currencySign}
+              </p>
+              <button
+                type="button" //prevents that the form is auto submited when click on button
+                className="btn btn-primary"
+                onClick={changeEurToChf}
+              >
+                Change to CHF
+              </button>
             </div>
             <div className="mb-3">
               <label htmlFor="email" className="form-label">
