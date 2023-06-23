@@ -27,7 +27,7 @@ const { send } = require("process");
 app.use(express.json());
 
 // enpoint which creates a user and hashes the password and stores the hashed passowrd in the database
-app.post("/user/register", async (req, res) => {
+app.post("/user/register", validateEmail, async (req, res) => {
   // Authenticate User
 
   try {
@@ -62,7 +62,8 @@ app.post("/user/login", async (req, res) => {
   });
 
   if (user == null) {
-    return res.status(400).send("Cannot find user");
+    console.log("user null")
+    return res.sendStatus(400);
   }
 
   try {
@@ -77,6 +78,7 @@ app.post("/user/login", async (req, res) => {
       );
       res.json({ token, message: "Succes" });
     } else {
+      console.log("something went wrong");
       res.status(401).send({ message: "Denied" });
     }
   } catch (error) {

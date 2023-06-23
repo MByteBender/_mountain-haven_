@@ -53,11 +53,13 @@ const sendResponse = (req, res) => {
 };
 
 const validateEmail = (req, res, next) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //defining a regex indicating with /
   const email = req.body.email;
+  //defining a regex indicating with / ^indicates start of string and $ end of string
+  const emailRegex = /^[^\s@]+@[a-zA-Z]+(\.[a-zA-Z]+)+$/;
   console.log("Mail regex: " + email);
   if (!emailRegex.test(email)) {
-    return res.status(400).send("Invalid email");
+    console.log("wrong mail");
+    return res.status(400).json({ error: "Invalid email" });
   }
 
   next();

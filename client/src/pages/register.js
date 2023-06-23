@@ -30,8 +30,7 @@ const Register = () => {
       Cookies.set("token", data.token);
       alert("login Succesfull");
       navigate("/"); // return to home when successfully login
-    } else if (response.status === 401 || response.status === 500) {
-      // Read the response body as JSON
+    } else if (response.status === 401) {
       alert("Wrong username or Password!");
     }
   };
@@ -48,17 +47,18 @@ const Register = () => {
       },
       body: JSON.stringify(contact),
     });
-
-    const responseData = await response.json();
+    console.log("status " + response.status);
 
     if (response.status === 201) {
+      const responseData = await response.json();
       Cookies.set("token", responseData.token);
 
-      alert(responseData.message);
+      alert("Successfully registered!");
       navigate("/"); // return to home when successfully registred
-    } else if (response.status === 500) {
-      // Read the response body as JSON
-      alert(Object.values(responseData));
+    } else if (response.status === 400) {
+      alert("Invalid Email");
+    } else {
+      alert("User with this email allready exists!");
     }
   };
 
@@ -79,6 +79,7 @@ const Register = () => {
                 <input
                   type="email"
                   className="form-control"
+                  required
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -91,6 +92,7 @@ const Register = () => {
                 <input
                   type="password"
                   className="form-control"
+                  required
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

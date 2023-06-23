@@ -166,6 +166,7 @@ const Blogs = () => {
                 <input
                   type="text"
                   className="form-control"
+                  required
                   id="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -178,6 +179,7 @@ const Blogs = () => {
                 </label>
                 <textarea
                   className="form-control"
+                  required
                   id="blogPostCLient"
                   rows="5"
                   maxLength={250}
