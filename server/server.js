@@ -17,6 +17,7 @@ const {
   authenticateToken,
   authenticateTokenAdmin,
   sendResponse,
+  validateEmail,
 } = require("./middleware");
 const { send } = require("process");
 
@@ -125,7 +126,7 @@ app.post("/admin/login", async (req, res) => {
   }
 });
 
-app.post("/bookApartment", async (req, res) => {
+app.post("/bookApartment", validateEmail, async (req, res) => {
   const contactData = req.body;
   const options = { day: "2-digit", month: "2-digit", year: "numeric" };
 

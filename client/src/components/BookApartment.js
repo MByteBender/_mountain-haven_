@@ -50,10 +50,14 @@ function BookApartment(props) {
   ]);
 
   async function changeEurToChf() {
-    const chfCourse = await getCHFCourse();
-    const chf = (price * chfCourse).toFixed(2);
-    setPrice(chf);
-    setCurrencySign("CHF");
+    try {
+      const chfCourse = await getCHFCourse();
+      const chf = (price * chfCourse).toFixed(2);
+      setPrice(chf);
+      setCurrencySign("CHF");
+    } catch {
+      alert("Something went wrong!");
+    }
   }
 
   useEffect(() => {
@@ -125,6 +129,8 @@ function BookApartment(props) {
       setMessage("");
       setName("");
       alert("Booking of the Apartment successful!");
+    } else if (response.status === 400) {
+      alert("Invalid Email");
     } else {
       alert("Something went wrong");
     }

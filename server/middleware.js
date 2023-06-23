@@ -52,8 +52,20 @@ const sendResponse = (req, res) => {
   }
 };
 
+const validateEmail = (req, res, next) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //defining a regex indicating with /
+  const email = req.body.email;
+  console.log("Mail regex: " + email);
+  if (!emailRegex.test(email)) {
+    return res.status(400).send("Invalid email");
+  }
+
+  next();
+};
+
 module.exports = {
   authenticateToken,
   authenticateTokenAdmin,
   sendResponse,
+  validateEmail,
 };
