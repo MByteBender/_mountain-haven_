@@ -139,7 +139,7 @@ const Blogs = () => {
                 </>
               ) : (
                 <>
-                  <h2>Title: {blog.title}</h2>
+                  <h2>{blog.title}</h2>
                   <p>Blog-Post: {blog.blogPost}</p>
                 </>
               )}

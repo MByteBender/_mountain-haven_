@@ -44,8 +44,8 @@ function Navbar() {
                 <CDropdownMenu>
                   <CDropdownItem href="/apartment1">Apartment 1</CDropdownItem>
                   <CDropdownItem href="/apartment2">Apartment 2</CDropdownItem>
-                  <CDropdownDivider />
-                  <CDropdownItem href="#">Something else here</CDropdownItem>
+                  {/* <CDropdownDivider />
+                  <CDropdownItem href="#">Something else here</CDropdownItem> */}
                 </CDropdownMenu>
               </CDropdown>
 

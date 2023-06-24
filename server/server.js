@@ -310,7 +310,7 @@ app.get(
   sendResponse
 );
 
-app.post("/contact", async (req, res) => {
+app.post("/contact", validateEmail, async (req, res) => {
   try {
     await prisma.contact.create({
       data: req.body,
