@@ -208,6 +208,8 @@ app.delete("/bookApartment/:id", authenticateTokenAdmin, async (req, res) => {
   }
 });
 
+// !NO API KEY
+/* 
 app.post("/sendEmail", async (req, res) => {
   const { to, subject, text } = req.body;
 
@@ -237,6 +239,7 @@ app.post("/sendEmail", async (req, res) => {
     res.sendStatus(500);
   }
 });
+*/
 
 app.post("/blogs/post", authenticateToken, async (req, res) => {
   console.log(req.user.email); //req user is the payload of the token
@@ -360,7 +363,6 @@ app.get(
         }
       })
       .then((data) => {
-       
         res.data = data;
         next();
       })

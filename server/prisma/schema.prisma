@@ -21,6 +21,7 @@ model Contact {
 
 model Booking {
   id String @id @default(cuid())
+  apartment String @default("apartment 1")
   name String
   persons Int
   email String

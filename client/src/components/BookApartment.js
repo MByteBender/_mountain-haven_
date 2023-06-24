@@ -113,6 +113,7 @@ function BookApartment(props) {
       email: email,
       message: message,
       date: selectedDateRange[0],
+      apartment: props.apartmentName,
     };
 
     console.log(contact);

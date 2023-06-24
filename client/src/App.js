@@ -31,6 +31,7 @@ import Blogs from "./pages/blogs";
 import AdminContacts from "./pages/adminContacts";
 import AdminNavbar from "./components/NavbarAdmin";
 import Restaurants from "./pages/restaurants";
+import Apartment2 from "./pages/apartment2";
 
 function App() {
   const location = window.location.pathname.startsWith("/admin");
@@ -45,6 +46,8 @@ function App() {
           <Routes>
             <Route exact path="/" element={<HomePage />} />
             <Route exact path="/apartment1" element={<Apartment1 />} />
+            <Route exact path="/apartment2" element={<Apartment2 />} />
+
             <Route exact path="/impressum" element={<Impressum />} />
             <Route
               path="/admin/openBookings"

@@ -43,7 +43,7 @@ function Navbar() {
                 <CDropdownToggle color="secondary">Apartments </CDropdownToggle>
                 <CDropdownMenu>
                   <CDropdownItem href="/apartment1">Apartment 1</CDropdownItem>
-                  <CDropdownItem href="#">Apartment 2</CDropdownItem>
+                  <CDropdownItem href="/apartment2">Apartment 2</CDropdownItem>
                   <CDropdownDivider />
                   <CDropdownItem href="#">Something else here</CDropdownItem>
                 </CDropdownMenu>
