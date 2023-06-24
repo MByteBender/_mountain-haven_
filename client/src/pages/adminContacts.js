@@ -63,7 +63,6 @@ function AdminContacts() {
               <p>Email: {contactRequest.email}</p>
               <p>Message: {contactRequest.message}</p>
               <p>ID: {contactRequest.id}</p>
-              <button className="btn btn-primary">Edit</button>
               <button
                 onClick={() => deleteContactRequest(contactRequest.id)}
                 className="btn btn-primary ms-2"

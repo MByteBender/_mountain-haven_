@@ -55,6 +55,7 @@ function BookApartment(props) {
       const chf = (price * chfCourse).toFixed(2);
       setPrice(chf);
       setCurrencySign("CHF");
+      
     } catch {
       alert("Something went wrong!");
     }

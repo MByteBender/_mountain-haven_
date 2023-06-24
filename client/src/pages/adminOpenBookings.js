@@ -6,6 +6,8 @@ import Footer from "../components/Footer";
 
 function AdminOpenBookings() {
   const [bookings, setBookings] = useState([]);
+  const [confirmationStatus, setConfirmationStatus] = useState(false); // State variable for confirmation status
+
   const navigate = useNavigate();
   useEffect(() => {
     async function getBookings() {
@@ -27,7 +29,7 @@ function AdminOpenBookings() {
     }
 
     getBookings();
-  }, [confirmBooking]);
+  }, [confirmationStatus]);
 
   async function deleteBooking(id) {
     const token = Cookies.get("token");
@@ -63,6 +65,7 @@ function AdminOpenBookings() {
       });
 
       if (response.ok) {
+        setConfirmationStatus(!confirmationStatus);
         alert("Confirmation sent");
       } else {
         throw new Error("Failed to send email");
@@ -79,6 +82,7 @@ function AdminOpenBookings() {
           {bookings.map((booking) => (
             <div key={booking.id} className="p-3 col-6 container">
               <h2>Name: {booking.name}</h2>
+              <p>Apartment: {booking.apartment}</p>
               <p>Email: {booking.email}</p>
               <p>Persons: {booking.persons}</p>
               <p>Message: {booking.message}</p>
@@ -86,7 +90,6 @@ function AdminOpenBookings() {
               <p>Start-Date: {booking.startDate}</p>
               <p>End-Date: {booking.endDate}</p>
               <p>ID: {booking.id}</p>
-              <button className="btn btn-primary">Edit</button>
               <button
                 onClick={() => deleteBooking(booking.id)}
                 className="btn btn-primary ms-2"
