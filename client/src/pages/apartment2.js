@@ -1,6 +1,5 @@
 import React from "react";
 import BookApartment from "../components/BookApartment";
-import Footer from "../components/Footer";
 import BasicSlider from "../components/HeroSlider/BasicSlider";
 
 const Apartment2 = () => {
@@ -10,6 +9,10 @@ const Apartment2 = () => {
         <BasicSlider
           Title="Apartment 2"
           Apartmentdescription="a stunning and everlasting experience"
+          image1="/blogs/blog_1.jpg"
+          image2="/blogs/blog_2.jpg"
+          image3="/blogs/blog_1.jpg"
+          image4="/blogs/blog_2.jpg"
         />
         <div className="container text-center p-4">
           <p>
@@ -38,10 +41,10 @@ const Apartment2 = () => {
           </p>
         </div>
         <BookApartment
-          apartmentImage1="/apart_1.jpg"
-          apartmentImage2="/apart1_kueche.jpg"
-          apartmentImage3="/apart1_balkon.jpg"
-          apartmentImage4="/apart1_bad.jpg"
+          apartmentImage1="/apartment1/apart_1.jpg"
+          apartmentImage2="/apartment1/apart1_kueche.jpg"
+          apartmentImage3="/apartment1/apart1_balkon.jpg"
+          apartmentImage4="/apartment1/apart1_bad.jpg"
           apartmentName="Apartment 2"
           maxGuestNumber="8"
         />

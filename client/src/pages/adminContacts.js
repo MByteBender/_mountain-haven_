@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import AdminNavbar from "../components/NavbarAdmin";
-import Footer from "../components/Footer";
 
 function AdminContacts() {
   const [contactRequest, setContactRequest] = useState([]);
 
-  const navigate = useNavigate();
   useEffect(() => {
     async function getContactRequest() {
       const token = Cookies.get("token"); // Retrieve the token from the cookie

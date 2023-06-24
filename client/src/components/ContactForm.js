@@ -1,18 +1,6 @@
 import styles from "../styles/ContactForm.module.css";
 import React, { useState } from "react";
 
-const axios = require("axios");
-
-// async function saveContact(contact) {
-//   const response = fetch("/contact", {
-//     method: "GET",
-//   });
-//   console.log(response);
-//   if (!response.ok) {
-//     throw new Error(response.statusText);
-//   }
-// }
-
 function ContactForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

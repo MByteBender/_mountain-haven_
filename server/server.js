@@ -241,14 +241,23 @@ app.post("/sendEmail", async (req, res) => {
 });
 */
 
-app.post("/blogs/post", authenticateToken, async (req, res) => {
+app.post("/blogs", authenticateToken, async (req, res) => {
   console.log(req.user.email); //req user is the payload of the token
   const userData = {
     email: req.user.email, //req user is the payload of the token
     title: req.body.title,
     blogPost: req.body.blogPost,
   };
+
   try {
+    if (
+      userData.title == null ||
+      userData.title == undefined ||
+      userData.title === ""
+    ) {
+      throw new Error("title empty");
+    }
+
     await prisma.blogs.create({
       data: userData,
     });
@@ -342,7 +351,7 @@ app.delete("/contact/:id", authenticateTokenAdmin, async (req, res) => {
 app.get(
   "/restaurants",
   async (req, res, next) => {
-    const API_TOKEN = process.env.YELP_API_TOKEN;
+    // const API_TOKEN = process.env.YELP_API_TOKEN;
     const latitude = "47.040286";
     const longitude = "10.600489";
     const data = await fetch(
@@ -351,7 +360,7 @@ app.get(
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${API_TOKEN}`,
+          Authorization: `Bearer GJdtdQ6yNtMxK8S3QF_RUQ5PKqgoeKN0B9A8-xclmQv-ks5XeGu7D8pUC_GcpP1dpnfE8Kmjm9Vvn7wTs6D8INlQVIbQL6FrT5qYF3cILfykBCBGdKyL1OcX14yQZHYx`,
         },
       }
     )

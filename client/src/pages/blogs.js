@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import BookApartment from "../components/BookApartment";
-import Footer from "../components/Footer";
 import BasicSlider from "../components/HeroSlider/BasicSlider";
 import styles from "../styles/BlogPost.module.css";
 import customButton from "../styles/customButton.module.css";
@@ -20,12 +18,21 @@ const Blogs = () => {
 
   useEffect(() => {
     async function getBlogPosts() {
-      const response = await fetch("/blogs", {
-        method: "GET",
-      });
+      try {
+        const response = await fetch("/blogs", {
+          method: "GET",
+        });
 
-      const data = await response.json();
-      setBlogPost(data);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Received data:", data);
+        setBlogPost(data);
+      } catch (error) {
+        console.log("An error occurred while fetching blogs:", error);
+      }
     }
 
     const token = Cookies.get("token");
@@ -72,7 +79,7 @@ const Blogs = () => {
     const requestBody = { title: title, blogPost: blogPostClient };
     const token = Cookies.get("token");
 
-    const response = await fetch("/blogs/post", {
+    const response = await fetch("/blogs", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -87,14 +94,14 @@ const Blogs = () => {
     }
 
     // add resposne 403 when your cookie is invalid
-    if (!token || response.status == 403) {
+    if (!token || response.status === 403) {
       alert("you can only write a Blog-Post if you are logged in!");
       setBlogPostClient("");
       setTitle("");
       return;
     }
 
-    if (response.status == 500) {
+    if (response.status === 500) {
       alert("You already Postet a Blog-Post");
       setBlogPostClient("");
       setTitle("");
@@ -107,6 +114,10 @@ const Blogs = () => {
         <BasicSlider
           Title="Blogs"
           Apartmentdescription="Write your experiences"
+          image1="/blogs/blog_1.jpg"
+          image2="/blogs/blog_2.jpg"
+          image3="/blogs/blog_1.jpg"
+          image4="/blogs/blog_2.jpg"
         />
         <div className="d-flex flex-wrap">
           {blogPost.map((blog) => (
@@ -118,6 +129,7 @@ const Blogs = () => {
                     {blog.email === email ? (
                       <input
                         type="text"
+                        required
                         value={editedTitle}
                         onChange={(e) => setEditedTitle(e.target.value)}
                       />
@@ -129,6 +141,7 @@ const Blogs = () => {
                     Blog-Post:{" "}
                     {blog.email === email ? (
                       <textarea
+                        required
                         value={editedBlogPost}
                         onChange={(e) => setEditedBlogPost(e.target.value)}
                       />

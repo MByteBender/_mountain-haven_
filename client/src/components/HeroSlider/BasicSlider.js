@@ -4,12 +4,10 @@ import Title from "./Title";
 import Subtitle from "./Subtitle";
 import styles from "./Heroslider.module.css";
 
-const bogliasco = "https://i.imgur.com/Gu5Cznz.jpg";
-const countyClare = "https://i.imgur.com/idjXzVQ.jpg";
-const craterRock = "https://i.imgur.com/8DYumaY.jpg";
-const giauPass = "https://i.imgur.com/8IuucQZ.jpg";
-
 export default function BasicSlider(props) {
+  const { image1, image2, image3, image4 } = props;
+  const { imageLabel1, imageLabel2, imageLabel3, imageLabel4 } = props;
+
   return (
     <HeroSlider
       height={"100vh"}
@@ -42,33 +40,33 @@ export default function BasicSlider(props) {
 
       <Slide
         shouldRenderMask
-        label="Giau Pass - Italy"
+        label={imageLabel1}
         background={{
-          backgroundImageSrc: giauPass,
+          backgroundImageSrc: image1,
         }}
       />
 
       <Slide
         shouldRenderMask
-        label="Bogliasco - Italy"
+        label={imageLabel2}
         background={{
-          backgroundImageSrc: bogliasco,
+          backgroundImageSrc: image2,
         }}
       />
 
       <Slide
         shouldRenderMask
-        label="County Clare - Ireland"
+        label={imageLabel3}
         background={{
-          backgroundImageSrc: countyClare,
+          backgroundImageSrc: image3,
         }}
       />
 
       <Slide
         shouldRenderMask
-        label="Crater Rock, OR - United States"
+        label={imageLabel4}
         background={{
-          backgroundImageSrc: craterRock,
+          backgroundImageSrc: image4,
         }}
       />
 

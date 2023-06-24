@@ -55,7 +55,6 @@ function BookApartment(props) {
       const chf = (price * chfCourse).toFixed(2);
       setPrice(chf);
       setCurrencySign("CHF");
-      
     } catch {
       alert("Something went wrong!");
     }
@@ -70,7 +69,7 @@ function BookApartment(props) {
     setPrice(diffInDays * 55);
     console.log("Number of days: " + diffInDays);
     console.log("Price: " + price + "€");
-  }, [selectedDateRange]);
+  }, [selectedDateRange, price]);
 
   useEffect(() => {
     const updateImage = () => {

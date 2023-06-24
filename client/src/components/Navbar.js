@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
-
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   CNavbar,
   CContainer,
@@ -17,7 +15,7 @@ import {
   CDropdownMenu,
 } from "@coreui/react";
 import "@coreui/coreui/dist/css/coreui.min.css";
-import NavItem from "./NavItem";
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
   const [visible, setVisible] = useState(false);
