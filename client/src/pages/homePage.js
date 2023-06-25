@@ -1,9 +1,6 @@
 import React from "react";
-import BookApartment from "../components/BookApartment";
-import Footer from "../components/Footer";
 import AboutUs from "../components/AboutUs";
 import ContactForm from "../components/ContactForm";
-import HeroSlider from "hero-slider/dist/HeroSlider";
 import BasicSlider from "../components/HeroSlider/BasicSlider";
 
 const HomePage = () => {

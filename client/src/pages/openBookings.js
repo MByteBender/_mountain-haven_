@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 function OpenBookings() {
   const [bookings, setBookings] = useState([]);
-  const navigate = useNavigate();
   useEffect(() => {
     async function getBookings() {
       const token = Cookies.get("token"); // Retrieve the token from the cookie

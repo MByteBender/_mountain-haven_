@@ -1,6 +1,4 @@
 import React from "react";
-import BookApartment from "../components/BookApartment";
-import Footer from "../components/Footer";
 
 const Apartment1 = () => {
   return (

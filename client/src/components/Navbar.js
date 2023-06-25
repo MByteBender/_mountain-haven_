@@ -15,7 +15,6 @@ import {
   CDropdownMenu,
 } from "@coreui/react";
 import "@coreui/coreui/dist/css/coreui.min.css";
-import { NavLink } from "react-router-dom";
 
 function Navbar() {
   const [visible, setVisible] = useState(false);

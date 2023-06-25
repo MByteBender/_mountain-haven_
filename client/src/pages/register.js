@@ -1,6 +1,3 @@
-import BookApartment from "../components/BookApartment";
-import Footer from "../components/Footer";
-
 import styles from "../styles/ContactForm.module.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";

@@ -1,9 +1,8 @@
-// load enviroment variabels so when we are in development
-
 const YELP_API_TOKEN =
   "GJdtdQ6yNtMxK8S3QF_RUQ5PKqgoeKN0B9A8-xclmQv-ks5XeGu7D8pUC_GcpP1dpnfE8Kmjm9Vvn7wTs6D8INlQVIbQL6FrT5qYF3cILfykBCBGdKyL1OcX14yQZHYx";
 const SESSION_SECRET = "secret";
 const ADMIN_SECRET = "admin";
+const PORT = 3000;
 
 const express = require("express");
 
@@ -312,7 +311,7 @@ app.get(
   sendResponse
 );
 
-app.post("/contact", async (req, res) => {
+app.post("/contact", validateEmail, async (req, res) => {
   try {
     await prisma.contact.create({
       data: req.body,
@@ -380,6 +379,5 @@ app.get(
 //   res.sendFile(path.join(__dirname + "/../client/build/index.html"));
 // });
 
-const port = 3000;
-console.log(`Server now listens on Port: ${port}`);
-app.listen(port);
+console.log(`Server now listens on Port: ${PORT}`);
+app.listen(PORT);

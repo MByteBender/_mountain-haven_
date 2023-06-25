@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import BookApartment from "../components/BookApartment";
-import Footer from "../components/Footer";
-import BasicSlider from "../components/HeroSlider/BasicSlider";
-import styles from "../styles/BlogPost.module.css";
-import customButton from "../styles/customButton.module.css";
-import Cookies from "js-cookie";
-import jwt_decode from "jwt-decode";
+
 
 const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
