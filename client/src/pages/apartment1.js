@@ -9,10 +9,10 @@ const Apartment1 = () => {
         <BasicSlider
           Title="Apartment 1"
           Apartmentdescription="a stunning and everlasting experience"
-          image1="/blogs/blog_1.jpg"
-          image2="/blogs/blog_2.jpg"
-          image3="/blogs/blog_1.jpg"
-          image4="/blogs/blog_2.jpg"
+          image1="/apart_1.jpg"
+          image2="/apart1_kueche.jpg"
+          image3="/apart1_balkon.jpg"
+          image4="/apart1_bad.jpg"
         />
         <div className="container text-center p-4">
           <p>
@@ -41,10 +41,10 @@ const Apartment1 = () => {
           </p>
         </div>
         <BookApartment
-          apartmentImage1="/apartment1/apart_1.jpg"
-          apartmentImage2="/apartment1/apart1_kueche.jpg"
-          apartmentImage3="/apartment1/apart1_balkon.jpg"
-          apartmentImage4="/apartment1/apart1_bad.jpg"
+          apartmentImage1="/apart_1.jpg"
+          apartmentImage2="/apart1_kueche.jpg"
+          apartmentImage3="/apart1_balkon.jpg"
+          apartmentImage4="/apart1_bad.jpg"
           apartmentName="Apartment 1"
           maxGuestNumber="8"
         />

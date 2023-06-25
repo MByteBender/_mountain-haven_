@@ -1,7 +1,9 @@
 // load enviroment variabels so when we are in development
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config;
-}
+
+const YELP_API_TOKEN =
+  "GJdtdQ6yNtMxK8S3QF_RUQ5PKqgoeKN0B9A8-xclmQv-ks5XeGu7D8pUC_GcpP1dpnfE8Kmjm9Vvn7wTs6D8INlQVIbQL6FrT5qYF3cILfykBCBGdKyL1OcX14yQZHYx";
+const SESSION_SECRET = "secret";
+const ADMIN_SECRET = "admin";
 
 const express = require("express");
 
@@ -43,7 +45,7 @@ app.post("/user/register", validateEmail, async (req, res) => {
 
     const token = jwt.sign(
       { email: user.email }, //put the email in the token payload
-      process.env.SESSION_SECRET,
+      SESSION_SECRET,
       {
         expiresIn: "1h",
       }
@@ -71,7 +73,7 @@ app.post("/user/login", async (req, res) => {
       // Generate a JWT and sign it
       const token = jwt.sign(
         { email: user.email }, //put the email in the token payload
-        process.env.SESSION_SECRET,
+        SESSION_SECRET,
         {
           expiresIn: "1h",
         }
@@ -118,7 +120,7 @@ app.post("/admin/login", async (req, res) => {
     user.username === req.body.username
   ) {
     // Generate a JWT and sign it
-    const token = jwt.sign({ userId: user.id }, process.env.ADMIN_SECRET, {
+    const token = jwt.sign({ userId: user.id }, ADMIN_SECRET, {
       expiresIn: "1h",
     });
 
@@ -241,23 +243,14 @@ app.post("/sendEmail", async (req, res) => {
 });
 */
 
-app.post("/blogs", authenticateToken, async (req, res) => {
+app.post("/blogs/post", authenticateToken, async (req, res) => {
   console.log(req.user.email); //req user is the payload of the token
   const userData = {
     email: req.user.email, //req user is the payload of the token
     title: req.body.title,
     blogPost: req.body.blogPost,
   };
-
   try {
-    if (
-      userData.title == null ||
-      userData.title == undefined ||
-      userData.title === ""
-    ) {
-      throw new Error("title empty");
-    }
-
     await prisma.blogs.create({
       data: userData,
     });
@@ -319,7 +312,7 @@ app.get(
   sendResponse
 );
 
-app.post("/contact", validateEmail, async (req, res) => {
+app.post("/contact", async (req, res) => {
   try {
     await prisma.contact.create({
       data: req.body,
@@ -351,7 +344,6 @@ app.delete("/contact/:id", authenticateTokenAdmin, async (req, res) => {
 app.get(
   "/restaurants",
   async (req, res, next) => {
-    // const API_TOKEN = process.env.YELP_API_TOKEN;
     const latitude = "47.040286";
     const longitude = "10.600489";
     const data = await fetch(
@@ -360,7 +352,7 @@ app.get(
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer GJdtdQ6yNtMxK8S3QF_RUQ5PKqgoeKN0B9A8-xclmQv-ks5XeGu7D8pUC_GcpP1dpnfE8Kmjm9Vvn7wTs6D8INlQVIbQL6FrT5qYF3cILfykBCBGdKyL1OcX14yQZHYx`,
+          Authorization: `Bearer ${YELP_API_TOKEN}`,
         },
       }
     )
@@ -388,6 +380,6 @@ app.get(
 //   res.sendFile(path.join(__dirname + "/../client/build/index.html"));
 // });
 
-const port = process.env.PORT || 3000;
+const port = 3000;
 console.log(`Server now listens on Port: ${port}`);
 app.listen(port);

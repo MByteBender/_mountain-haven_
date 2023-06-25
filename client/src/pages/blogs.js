@@ -114,10 +114,10 @@ const Blogs = () => {
         <BasicSlider
           Title="Blogs"
           Apartmentdescription="Write your experiences"
-          image1="/blogs/blog_1.jpg"
-          image2="/blogs/blog_2.jpg"
-          image3="/blogs/blog_1.jpg"
-          image4="/blogs/blog_2.jpg"
+          image1="/blog_1.jpg"
+          image2="/blog_2.jpg"
+          image3="/blog_1.jpg"
+          image4="/blog_2.jpg"
         />
         <div className="d-flex flex-wrap">
           {blogPost.map((blog) => (

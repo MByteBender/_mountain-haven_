@@ -14,10 +14,10 @@ const HomePage = () => {
           <BasicSlider
             Title="Mountain Haven"
             Apartmentdescription="A stunning and everlasting experience"
-            image1="/home/mountain_3.jpg"
-            image2="/home/mountain_2.jpg"
-            image3="/home/mountain.jpg"
-            image4="/home/mountain_4.jpg"
+            image1="/mountain_3.jpg"
+            image2="/mountain_2.jpg"
+            image3="/mountain.jpg"
+            image4="/mountain_4.jpg"
           />
         </div>
 
