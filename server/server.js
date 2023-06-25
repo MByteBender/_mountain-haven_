@@ -243,7 +243,7 @@ app.post("/sendEmail", async (req, res) => {
 });
 */
 
-app.post("/blogs/post", authenticateToken, async (req, res) => {
+app.post("/blogs", authenticateToken, async (req, res) => {
   console.log(req.user.email); //req user is the payload of the token
   const userData = {
     email: req.user.email, //req user is the payload of the token

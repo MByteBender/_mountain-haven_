@@ -37,7 +37,6 @@ function OpenBookings() {
               <p>Persons: {booking.persons}</p>
               <p>Message: {booking.message}</p>
               <p>Status: {booking.status}</p>
-              <p>id {booking.id}</p>
             </div>
           ))}
         </div>

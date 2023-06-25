@@ -1,6 +1,9 @@
 const jwt = require("jsonwebtoken");
 const xmlBuilder = require("xmlbuilder2");
 
+const SESSION_SECRET = "secret";
+const ADMIN_SECRET = "admin";
+
 // Middleware to authenticate requests
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -12,7 +15,7 @@ const authenticateToken = (req, res, next) => {
     return res.status(401).send("No token provided");
   }
 
-  jwt.verify(token, process.env.SESSION_SECRET, (err, user) => {
+  jwt.verify(token, SESSION_SECRET, (err, user) => {
     if (err) {
       return res.status(403).send("Invalid token");
     }
@@ -30,7 +33,7 @@ const authenticateTokenAdmin = (req, res, next) => {
     return res.status(401).send("No token provided");
   }
 
-  jwt.verify(token, process.env.ADMIN_SECRET, (err, user) => {
+  jwt.verify(token, ADMIN_SECRET, (err, user) => {
     if (err) {
       return res.status(403).send("Invalid token");
     }
