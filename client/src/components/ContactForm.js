@@ -72,7 +72,7 @@ function ContactForm() {
             ></textarea>
           </div>
           <button type="submit" className={` ${styles.customButton}`}>
-            <span>Sumbit</span>
+            <span>Submit</span>
           </button>
         </form>
       </div>

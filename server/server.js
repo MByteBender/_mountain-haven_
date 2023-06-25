@@ -249,7 +249,18 @@ app.post("/blogs", authenticateToken, async (req, res) => {
     title: req.body.title,
     blogPost: req.body.blogPost,
   };
+
+  console.log("Test TITLE: " + userData.title);
+
   try {
+    if (
+      userData.title == null ||
+      userData.title == undefined ||
+      userData.title === ""
+    ) {
+      throw new Error("title empty");
+    }
+
     await prisma.blogs.create({
       data: userData,
     });

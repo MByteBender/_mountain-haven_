@@ -78,6 +78,6 @@ async function postContactRequest() {
 }
 
 // ! Uncomment method to show api repsone in console
-// postContactRequest();
-// getBlogPosts();
-// getRestaurants();
+getBlogPosts();
+getRestaurants();
+postContactRequest();

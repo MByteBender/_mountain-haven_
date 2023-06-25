@@ -53,6 +53,8 @@ function BookApartment(props) {
     try {
       const chfCourse = await getCHFCourse();
       const chf = (price * chfCourse).toFixed(2);
+      console.log("kurs " + chfCourse);
+      console.log("preis " + chf);
       setPrice(chf);
       setCurrencySign("CHF");
     } catch {
@@ -69,7 +71,7 @@ function BookApartment(props) {
     setPrice(diffInDays * 55);
     console.log("Number of days: " + diffInDays);
     console.log("Price: " + price + "€");
-  }, [selectedDateRange, price]);
+  }, [selectedDateRange]);
 
   useEffect(() => {
     const updateImage = () => {
