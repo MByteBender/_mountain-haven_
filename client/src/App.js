@@ -59,6 +59,7 @@ function App() {
 
             <Route exact path="/blogsTest" element={<BlogsTest />} />
             <Route exact path="/blogs" element={<Blogs />} />
+            <Route path="*" element={<Navigate to="/" />} />
 
             {/* <Route
               path="/admin/openBookings"
